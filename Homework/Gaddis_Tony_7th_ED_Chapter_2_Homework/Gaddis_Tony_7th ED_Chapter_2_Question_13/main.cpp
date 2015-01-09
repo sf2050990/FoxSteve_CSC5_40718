@@ -10,15 +10,18 @@
 #include <iomanip>
 using namespace std;
 
+//Global variables
+const char CONPERC=100;
+
 int main() 
 {
     //Initialization of variables
-    float rate=.4;
+    float rate=40;
     float cost=12.67;
     float price;
     
     //Calculation of total sales cost of a circuit board
-    price=(cost*rate)+cost;
+    price=(cost*(rate/CONPERC))+cost;
     
     //Output of total sales cost of circuit board
     cout<<setprecision(2)<<fixed<<"The unit cost of a circuit board is "<<cost;

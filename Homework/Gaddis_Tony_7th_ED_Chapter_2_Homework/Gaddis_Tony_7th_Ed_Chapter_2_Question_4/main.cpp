@@ -11,7 +11,7 @@
 using namespace std;
 
 //Global Constants
-const float taxRate=.0675;
+const char CONPERC=100;
 
 //Execution Begins Here!
 
@@ -19,14 +19,15 @@ int main()
 {
     //Initialization of variables
     float meal=44.50;
-    float tipRate=.15;
+    float tipRate=15;
+     float taxRate=6.75;
     float tax;
     float tip;
     float total;
     
     //Calculate the amount of tax, tip, and the grand total of the bill
-    tax=meal*taxRate;
-    tip=(meal+tax)*tipRate;
+    tax=meal*(taxRate/CONPERC);
+    tip=(meal+tax)*(tipRate/CONPERC);
     total=meal+tax+tip;
     
     //Output the amount of original price, tax,tip, and the grand total of the bill

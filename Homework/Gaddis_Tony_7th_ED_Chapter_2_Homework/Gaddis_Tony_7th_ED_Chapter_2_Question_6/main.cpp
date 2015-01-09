@@ -11,7 +11,7 @@
 using namespace std;
 
 //Global Constants
-const int payPeriods=26;    //Biweekly Payments in a year
+const char payPeriods=26;    //Biweekly Payments in a year
 
 int main() 
 {

@@ -9,18 +9,20 @@
 #include <iostream>
 using namespace std;
 
+//Global Variable
+const unsigned int ACRE=43560;         //square feet
 int main() 
 {
     //Initialize Variables
-    unsigned int acre= 43560;                //Square feet
+   
     float total= 389767;                     //Square feet
     float numAcre;
     
     //Calculate the total number of acres
-    numAcre= total/acre;
+    numAcre= total/ACRE;
     
     //Output the total number of acres
-    cout<<"An acre is "<<acre<<" square feet. There is a total of "<<total<<endl;
+    cout<<"An acre is "<<ACRE<<" square feet. There is a total of "<<total<<endl;
     cout<<"square feet  which means there is "<<numAcre<<" acres all together.";
     
     //Exit Program
