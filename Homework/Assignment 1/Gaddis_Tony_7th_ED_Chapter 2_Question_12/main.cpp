@@ -15,7 +15,7 @@ int main()
 {
     //Initialize Variables
    
-    float total= 389767;                     //Square feet
+    float total= 389767;               //Square feet
     float numAcre;
     
     //Calculate the total number of acres

@@ -11,13 +11,15 @@
 #include <iomanip>
 using namespace std;
 
+//Global Variable
+const char CONPERC=100;
 int main()
 {
     //Initialize variables
     unsigned int numStok=1000;
     float cost=32.87;
     float sell=33.92;
-    float rate= .02;
+    float rate= 2;
     float paid;
     float broker1;
     float broker2;
@@ -28,13 +30,13 @@ int main()
     paid=cost*numStok;
     
     //Calculates the amount paid to broker after purchase
-    broker1=paid*rate;
+    broker1=paid*(rate/CONPERC);
     
     //Calculates how much the stock was sold for
     sold=numStok*sell;
     
     //Calculates the second amount paid to broker
-    broker2=sold*rate;
+    broker2=sold*(rate/CONPERC);
     
     //Calculates the amount of profit if any accumulated
     profit=(paid+broker1)-(sold+broker2);
