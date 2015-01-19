@@ -1,16 +1,15 @@
 /* 
  * File:   main.cpp
  * Author: Steve Fox
- *
  * Created on January 10, 2015, 11:25 AM
  * Purpose: Gaddis_7th_Ed_Chap_3_Prob_14
- * 
+ *          property tax
  */
 // System Libraries
 #include <iostream>
 #include <iomanip>
 using namespace std;
-
+//Execulion Begins here
 int main()
 {
     //Initialize variables
@@ -23,7 +22,7 @@ int main()
     //Prompt user for the assessed property value
     cout<<"Please enter the assessed value of the piece of property.";
     cin>>prop;
-    cin.ignore();
+    
     
     //Prompt user for tax in dollars per hundred
     cout<<"Please enter the amount of tax in dollars on this property";
@@ -40,5 +39,6 @@ int main()
     cout<<"The amount of annual tax on this piece is $"<<annTax<<endl;
     cout<<"The quarterly bill for this property is $"<<qrtBill;
  
+    //Exit Program
     return 0;   
 }

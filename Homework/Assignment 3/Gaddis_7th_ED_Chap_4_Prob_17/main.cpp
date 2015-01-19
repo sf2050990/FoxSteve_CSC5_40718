@@ -4,7 +4,7 @@
  *
  * Created on January 13, 2015, 12:00 PM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_17
- * 
+ *         Electromagnetic wave classification
  */
 // System Libraries
 #include <iostream>
@@ -60,6 +60,6 @@ int main()
     else 
         cout<<"The electromagnetic wave is a gamma ray";
     
-    
+    //Exit Program
     return 0;
 }

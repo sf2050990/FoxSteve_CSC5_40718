@@ -4,22 +4,23 @@
  *
  * Created on January 12, 2015, 9:05 PM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_22
- * 
+ *          Phone rates
  */
 // System Libraries
 #include <iostream>
 #include <iomanip>
 using namespace std;
-
+//Execution begins here
 int main()
 {
+    //Declare variables
     float rate1=.12;                      //Rate of a call between 0 and 6.59 minutes
     float rate2=.55;                      //Rate of a call between 7 and 19 minutes
     float rate3=.35;                      //Rate of a  call between 19.01 and 23.59
     float time;                           //Time when call began 
     float mins;                           //Number of minutes the call lasted
     float secs1;                          //Holds the seconds value for time;
-    float secs2;                           //Holds the second value for minutes
+    float secs2;                          //Holds the second value for minutes
     float total;                          //Total bill
     
     //Prompt for when the call took place

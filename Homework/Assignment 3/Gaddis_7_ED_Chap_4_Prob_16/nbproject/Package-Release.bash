@@ -13,8 +13,8 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=dll
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gaddis_7ed_chap4_prob_16
-OUTPUT_BASENAME=gaddis_7ed_chap4_prob_16
+OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gaddis_7_ed_chap_4_prob_16
+OUTPUT_BASENAME=gaddis_7_ed_chap_4_prob_16
 PACKAGE_TOP_DIR=gaddis7edchap4prob16/
 
 # Functions

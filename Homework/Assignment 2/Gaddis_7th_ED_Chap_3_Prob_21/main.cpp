@@ -4,7 +4,7 @@
  *
  * Created on January 8, 2015, 2:45 PM
  * Purpose:Gaddis_Tony_7th_Ed_Chapter_3_Question_21
- * 
+ *         Stocks
  */
 // System Libraries
 #include <iostream>
@@ -12,19 +12,19 @@
 using namespace std;
 
 //Global Variable
-const char CONPERC=100;
+const char CONPERC=100;                //Global conversion of percents and decimals
 int main()
 {
     //Initialize variables
-    unsigned int numStok=1000;
-    float cost=32.87;
-    float sell=33.92;
-    float rate= 2;
-    float paid;
-    float broker1;
-    float broker2;
-    float sold;
-    float profit;
+    unsigned int numStok=1000;          //Number of Stocks
+    float cost=32.87;                   //Cost per stock
+    float sell=33.92;                   //Selling price of stock
+    float rate= 2;                      //Brokers commission rate
+    float paid;                         //Amount originally paid for stock
+    float broker1;                      //First set of broker fees
+    float broker2;                      //Second set of borker fees
+    float sold;                         //Amount stocks were sold for
+    float profit;                       //Total profit
     
     //Calculates Amount paid for stock
     paid=cost*numStok;

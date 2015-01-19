@@ -4,7 +4,7 @@
  *
  * Created on January 11, 2015, 4:25 PM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_16
- * 
+ *          Calories from fat
  */
 // System Libraries
 #include <iostream>
@@ -12,7 +12,7 @@ using namespace std;
 
 //Global Constants
 const char CONPERC=100;                //Global constant converts decimal into a percent
-
+//Execution begins here
 int main()
 {
     unsigned int cal;                  //Number of calories

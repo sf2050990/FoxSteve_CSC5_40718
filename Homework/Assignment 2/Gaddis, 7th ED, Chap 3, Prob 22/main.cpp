@@ -4,13 +4,14 @@
  *
  * Created on January 10, 2015, 12:15 PM
  * Purpose: Gaddis_7th_ED_Chap_3_Prob_22
- * 
+ *          Word Game
  */
 // System Libraries
 #include <iostream>
 #include <string>
 using namespace std;
 
+//Execution begins here
 int main()
 {  
     //Initialize string variables
@@ -56,5 +57,6 @@ int main()
     cout<<"as a "<<job<<". Then, "<<name<<" adopted a(n) "<<animal<<" named "<<pet<<". They"<<endl;
     cout<<"both lived happy ever after.";
             
+    //Exit Program
     return 0;
 }

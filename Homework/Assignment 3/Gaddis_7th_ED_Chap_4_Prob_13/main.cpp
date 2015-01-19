@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Steve Fox
  *
- * Created on January 6, 2015, 6:05 PM
+ * Created on January 13, 2015, 6:05 PM
  * Purpose:Gaddis_7th_ED_Chap_4_Prob_3
  *         Calculate shipping cost
  * 
@@ -12,7 +12,7 @@
 #include <iomanip>
 using namespace std;
 
-
+//Execution begins here
 int main()
 {
     float kg2less=1.10;                    //Shipping rate of a package between 0-2 kilograms
@@ -172,6 +172,6 @@ int main()
      cout<<setprecision(2)<<fixed<<showpoint;
      cout<<"The total bill for this package $ "<<total;
     } 
-        
+    //Exit Program    
     return 0;
 }

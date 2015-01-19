@@ -3,8 +3,8 @@
  * Author: Steve Fox
  *
  * Created on January 6, 2015, 6:05 PM
- * Purpose: Our first program
- * I am at github
+ * Purpose: Gaddis 7th Ed Chap 4 Prob 19
+ *          Rate of sound
  */
 // System Libraries
 #include <iostream>
@@ -32,18 +32,19 @@ int main()
     cout<<"4:Hydrogen"<<endl;
     cin>>choice;
     
+     //Validates whether the menu selection is between 1 and 4 
+    if(choice<1||choice>4)
+        cout<<"ERROR! Your choice must be between 1-4.";
+    else{    
+    
     //Prompts user to enter thee number of seconds elapsed until the sound is heard
     cout<<"Please enter the number of seconds"<<endl;
     cin>>secs;
-    
-    //Validates whether the menu selection is between 1 and 4 
-    if(choice>=1&&choice<=4)
-    {
         
     //Validates whether the amount of seconds is between 1 and 30
-    if  (secs>=1&&secs<=30)
-    {
-        
+    if  (secs<1||secs>=30)
+        cout<<"ERROR! The seconds must be between 1-30.";
+    else{
     //Conditionally executes statements based on menu selection    
     switch(choice)
     {
@@ -67,14 +68,9 @@ int main()
                  answer=hydrgen*secs;
                  cout<<"The source of the sound was "<<answer<<" meters away.";
                         break;
-    }}
-    //Outputs error if seconds entered by user is not between one and thirty
-    else 
-        cout<<"ERROR! The seconds must be between 1-30.";
     }
-    else 
-        cout<<"ERROR! Your choice must be between 1-4.";       
-    
+    }
+    }
     //Exit program
     return 0;
 }

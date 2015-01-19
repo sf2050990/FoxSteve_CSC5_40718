@@ -4,13 +4,13 @@
  *
  * Created on January 13, 2015, 1:20 PM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_14
- * I am at github
+ *          Runners in ascending order
  */
 // System Libraries
 #include <iostream>
 #include <string>
 using namespace std;
-
+//Execution begins here
 int main()
 {
     string name1;                      //Holds name of first runner
@@ -22,7 +22,9 @@ int main()
     
     //Prompts user to enter the names of three runners
     cout<<"Please enter three runners names";
-    cin>>name1>>name2>>name3;
+    getline(cin,name1);
+    getline(cin,name2);
+    getline(cin,name3);
     
     //Prompts user to enter the times of the three  runners
     cout<<"Please enter their running times in format 00.00(minutes.seconds)";

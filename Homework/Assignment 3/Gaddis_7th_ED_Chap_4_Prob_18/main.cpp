@@ -4,7 +4,7 @@
  *
  * Created on January 10, 2015, 7:28 PM
  * Purpose:  Gaddis_7th_ED_Chap_4_Prob_18
- *
+ *         Time it takes sound to hit an object through different mediums
  */
 // System Libraries
 #include <iostream>
@@ -19,12 +19,10 @@ const unsigned int water=4900;          //Global constant:the rate in meters per
                                         //travel in water
 const unsigned int steel=16400;         //Global constant:the rate in meters per second sound can
                                         //travel in steel   
-//Function Prototype
-
+//Execution begins here
 int main()
 {
-    
-    
+    //Declare variables
     unsigned short choice;             //Holds the users input for menu selection
     float dis;                         //Holds distance the user inputs of object of interest 
     float totSecs;                     //Holds total number of seconds 

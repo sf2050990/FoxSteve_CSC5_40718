@@ -4,6 +4,7 @@
  *
  * Created on January 10, 2015, 6:10 PM
  * Purpose: Gaddis_7th_ED_Chap_3_Prob_13
+ *          Taxes and assessment value
  * 
  */
 // System Libraries
@@ -32,7 +33,7 @@ int main()
     assesVal=(propTax/CONPERC)*price;
     
     //Calculate the assesment tax
-    tax=assesVal*(assesTax/100);
+    tax=assesVal*(assesTax/CONPERC);
     
     //Output assessment value and property tax
     cout<<setprecision(2)<<fixed<<showpoint;

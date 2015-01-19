@@ -3,8 +3,8 @@
  * Author: Steve Fox
  *
  * Created on January 9, 2015, 4:57 PM
- * Purpose: Our first program
- * I am at github
+ * Purpose: Gaddis_7th_ED_Chap_3_Prob_19
+ *          Number of slices in a pizza
  */
 // System Libraries
 #include <iostream>

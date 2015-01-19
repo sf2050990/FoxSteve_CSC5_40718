@@ -4,7 +4,7 @@
  *
  * Created on January 12, 2015, 12:35 PM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_20
- * 
+ *          Boiling and Freezing points
  */
 // System Libraries
 #include <iostream>
@@ -26,6 +26,7 @@ using namespace std;
 
 int main() 
 {  
+    //Declare variables
     short temp;                       //Holds users temperature
 
     //Prompt user for a temperature

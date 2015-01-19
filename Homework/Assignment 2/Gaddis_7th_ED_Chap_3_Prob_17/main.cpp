@@ -16,39 +16,36 @@ using namespace std;
 
 //Global Constants
 const char ANNUAL=12;           //constant number of monthly payments in a year
-const char CONPERC=100;
+const char CONPERC=100;         //Global conversion of percents and decimals
 
 //Execution Begins Here!
 int main()
 {
-    float numPay=0;                  //Number of payments
+    float numPay=0;                //Number of payments
     float loan=0;                  //Loan amount
-    float monRate=0;              //Monthly interest rate
-    float anlRate=0;              //Annual interest rate
+    float monRate=0;               //Monthly interest rate
+    float anlRate=0;               //Annual interest rate
     double monPay=0;               //Monthly payment
-    float amtPay=0;               //Amount of interest paid
-    float totPaid=0;
+    float amtPay=0;                //Amount of interest paid
+    float totPaid=0;               //Total amount paid
     
   
-    
+    //Prompts for loan amount, annual interest, and number of payments 
     cout<<"What is the loan amount?";
     cin>>loan;
-    cin.ignore();
-    
+     
     cout<<"What is the annual interest rate?";
     cin>>anlRate;
-    cin.ignore();
-    
+      
     cout<<"How many payments are designated in the loan?";
     cin>>numPay;
-    cin.ignore();
     
     //Calculate monthly interest rate
     monRate=(anlRate/CONPERC)/ANNUAL;
 
     
     //Calculate monthly payments
-   monPay= (monRate*pow(1+monRate,numPay)/(pow(1+monRate,numPay)-1))*loan;
+    monPay= (monRate*pow(1+monRate,numPay)/(pow(1+monRate,numPay)-1))*loan;
     
     //Calculate amount paid 
     totPaid=monPay*numPay;
@@ -68,6 +65,6 @@ int main()
     
         
     
-    
+    //Exit Program
     return 0;
 }

@@ -4,7 +4,7 @@
  *
  * Created on January 10, 2015, 7:40 PM
  * Purpose: Gaddis_7th_ED_Chap_3_Prob_12
- * I am at github
+ *          Sales Report
  */
 // System Libraries
 #include <iostream>
@@ -15,7 +15,7 @@ using namespace std;
 //User Libraries
 
 //Global Constants
-const int CONPERC=100;
+const int CONPERC=100;                  //global constant for converting percent
 
 //Function Prototype
 
@@ -24,18 +24,17 @@ const int CONPERC=100;
 int main() 
 {
     
-    float cntyTax;
-    float cntyRat=2;
-    float stateTax;
-    float stateRat=4;
-    float totTax;
-    float totAmt;
-    float totSale;
-    string month;
-    string year;
-    float prdSale;
-    float finlSal;
+    float cntyTax;                       //County tax
+    float cntyRat=2;                     //County Rate
+    float stateTax;                      //State tax 
+    float stateRat=4;                    //State tax rate
+    float totTax;                        //Total tax
+    float totAmt;                        //Total amount recieved at cash register
+    float totSale;                       //Total sales
+    string month;                        //Month
+    string year;                         //Year
     
+    //Prompts user for the month, year, and total cash recieved at register
     cout<<"What month is it?";
     getline(cin,month);
     
@@ -44,33 +43,26 @@ int main()
     
     cout<<"What is the amount collected at the cash register?";
     cin>>totAmt;
-    
-    cntyTax=totAmt*(cntyRat/CONPERC);
-    
-    stateTax=totAmt*(stateRat/CONPERC);
-    
+    //Calculates total sale
+    totSale=totAmt/1.06;
+    //Calculates county tax
+    cntyTax=totSale*(cntyRat/CONPERC);
+    //Calculate state tax
+    stateTax=totSale*(stateRat/CONPERC);
+    //Calculate total tax
     totTax=stateTax+cntyTax;
     
-    totSale=totAmt/1.06;
     
+    //Output month, year, total collected from register, total sales, county tax, state tax, and total tax
     cout<<"Month:  "<<month<<" "<<year<<endl;
-    cout<<"---------------------"<<endl;
-    cout<<"Total Collected:"<<totAmt<<endl;
-    cout<<"Sales:"<<totSale<<endl;
-    cout<<"County Sales Tax:"<<cntyTax<<endl;
-    cout<<"State Sales Tax:"<<stateTax<<endl;
-    cout<<"Total Sales Tax:"<<totTax<<endl;
+    cout<<"--------------------------------"<<endl;
+    cout<<setprecision(2)<<fixed<<showpoint;
+    cout<<"Total Collected:      $"<<setw(9)<<totAmt<<endl;
+    cout<<"Sales:                $"<<setw(9)<<totSale<<endl;
+    cout<<"County Sales Tax:     $"<<setw(9)<<cntyTax<<endl;
+    cout<<"State Sales Tax:      $"<<setw(9)<<stateTax<<endl;
+    cout<<"Total Sales Tax:      $"<<setw(9)<<totTax<<endl;
             
-    
-    
-    
-    
-            
-
-    
-            
-    
-    
-
+//End Program
     return 0;
 }

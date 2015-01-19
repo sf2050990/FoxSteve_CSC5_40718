@@ -4,7 +4,7 @@
  *
  * Created on January 13, 2015, 9:51 AM
  * Purpose: Gaddis_7th_ED_Chap_4_Prob_21
- * 
+ *          Area of shapes
  */
 // System Libraries
 #include <iostream>
@@ -13,11 +13,12 @@ using namespace std;
 //Function Prototype
 const float PI=3.14159;                      //Global constant of the value of pie
 
+//Execution begins here
 int main() 
 {
-
-short choice;                               //Holds user choice
-float area;                                 //Holds area depending on users menus choice
+    //Declare variables
+    short choice;                               //Holds user choice
+    float area;                                 //Holds area depending on users menus choice
 
 //Prompt user to select a menu choice for the area of a shape
 cout<<"Please enter the shape for which you would like to calculate the area of"<<endl;
@@ -40,7 +41,7 @@ switch(choice)
             //Prompt user for the radius of a circle
             cout<<"What is the radius of the circle?";
             
-             //Holds users entry for the radius of a circle
+            //Holds users entry for the radius of a circle
             cin>>radius;
             
             //Conditionally executes an error message if radius is less than 0

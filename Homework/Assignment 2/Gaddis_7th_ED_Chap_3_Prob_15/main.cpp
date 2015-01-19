@@ -4,7 +4,7 @@
  *
  * Created on January 10, 2015, 3:00 PM
  * Purpose: Gaddis_7th_ED_Chap_3_Prob_15
- * 
+ *          Math tutor
  */
 // System Libraries
 #include <iostream>
@@ -41,7 +41,7 @@ int main()
     
     //Input of users answer
     cin>>answer;
-    cin.ignore();
+  
    
     //Outputs the correct answer in the form of an addition problem
     cout<<right<<"  "<<num1<<endl;
