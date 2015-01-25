@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=Cygwin-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin-Windows
-CND_ARTIFACT_NAME_Debug=gaddis_7th_ed_chap_5_prob_
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/gaddis_7th_ed_chap_5_prob_
+CND_ARTIFACT_NAME_Debug=gaddis_7th_ed_chap_5_prob_22
+CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/gaddis_7th_ed_chap_5_prob_22
 CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin-Windows/package
-CND_PACKAGE_NAME_Debug=gaddis7thedchap5prob.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/gaddis7thedchap5prob.tar
+CND_PACKAGE_NAME_Debug=gaddis7thedchap5prob22.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/gaddis7thedchap5prob22.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=gaddis_7th_ed_chap_5_prob_
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/gaddis_7th_ed_chap_5_prob_
+CND_ARTIFACT_NAME_Release=gaddis_7th_ed_chap_5_prob_22
+CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/gaddis_7th_ed_chap_5_prob_22
 CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=gaddis7thedchap5prob.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/gaddis7thedchap5prob.tar
+CND_PACKAGE_NAME_Release=gaddis7thedchap5prob22.tar
+CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/gaddis7thedchap5prob22.tar
 #
 # include compiler specific variables
 #

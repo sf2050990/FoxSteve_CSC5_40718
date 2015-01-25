@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Steve Fox
  *
- * Created on January , 2015, 2:59 PM
+ * Created on January 19, 2015, 2:59 PM
  * Purpose: Gaddis_7th_ED_Chap_3_Prob_17
  *          Display sales figures
  */

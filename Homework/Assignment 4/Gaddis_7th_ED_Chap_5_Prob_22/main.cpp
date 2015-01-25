@@ -4,7 +4,7 @@
  *
  * Created on January 14, 2015, 1:05 PM
  * Purpose: Gaddis_7th_ED_Chap_5_Prob_22
- * 
+ *          Square using a loop
  */
 // System Libraries
 #include <iostream>
@@ -22,7 +22,13 @@ int main()
     //Prompts user to enter a number between 1-15
     cout<<"Please enter an integer that is no greater then 15";
     cin>>num;
-    
+    while(num>15||num<0)
+    {
+        cout<<"ERROR. The number cannot be greater than 15 and must be a positive number"<<endl;
+        cout<<"Please enter an integer that is no greater then 15";
+        cin>>num;
+    }
+  
    //Repeats for every full rotation of the program equal to the users input 
    for(time=0;time<num;time++)
    {

@@ -11,10 +11,6 @@
 #include <iomanip>
 using namespace std;
 
-//User Libraries
-
-//Global Constants
-
 //Function Prototype
 float patient(int,float,float,float);          //Overloaded function prototype for patient bill 
 float patient(float,float);                    //Overloaded function prototype for patient bill
@@ -42,7 +38,7 @@ int main()
         cout<<"Error. You must enter  I or O"<<endl;
         cout<<"Were you admitted to the hospital as an in-patient or an out-patient?"<<endl;
         cout<<"Press I for in-patient or O for outpatient."<<endl;
-       cin>>choice;
+        cin>>choice;
         
     }
     //Conditionally executes is the user enters i or I indicating they are inpatient

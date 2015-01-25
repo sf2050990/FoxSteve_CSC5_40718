@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Steve Fox
  *
- * Created on January 6, 2015, 6:05 PM
+ * Created on January 22, 2015, 6:05 PM
  * Purpose: Gaddis_7th_ED_Chap_6_Prob_13
  *          Order status of wire spools
  */

@@ -36,6 +36,16 @@ int main()
     cout<<"2: Paper"<<endl;
     cout<<"3: Scissors"<<endl;
     cin>>choice;
+    while(choice<=0||choice>3)
+    {
+        cout<<"ERROR: Your selection must be between 1-3"<<endl;
+            //Prompt user for a menu choice
+        cout<<"Please enter a choice:"<<endl;
+        cout<<"1: Rock"<<endl;
+        cout<<"2: Paper"<<endl;
+        cout<<"3: Scissors"<<endl;
+        cin>>choice;     
+    }
     //Sends choice to hand function
     hand(choice);
     //Sends opponents move to hand2 function

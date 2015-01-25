@@ -3,8 +3,8 @@
  * Author: Steve Fox
  *
  * Created on January 19, 2015, 6:17 PM
- * Purpose: Gaddis_7th_ED_Chap_6_Prob_22
- *          Write prime number to a file
+ * Purpose: Gaddis_7th_ED_Chap_6_Prob_21
+ *         prime numbers
  */
 // System Libraries
 #include <iostream>

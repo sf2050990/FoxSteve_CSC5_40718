@@ -11,7 +11,7 @@
 using namespace std;
 
 //Global Constants
-const float CONPERC=100;        //Global Constant to convert decimals and percents
+const float CONPERC=100;               //Global Constant to convert decimals and percents
 //Execution Begins Here!
 int main()
 {
@@ -35,6 +35,17 @@ int main()
         
         cout<<"How many rooms are occupied on floor# "<<count<<endl;
         cin>>occupy;
+        //Input validation
+        while(rooms<occupy)
+        {
+            cout<<"ERROR. The number of occupants cannot be greater than the number of rooms"<<endl;
+            //Prompt user for number of rooms on the floor and the number that are occupied
+            cout<<"How many rooms are on floor# "<<count<<endl;
+            cin>>rooms;
+
+            cout<<"How many rooms are occupied on floor# "<<count<<endl;
+            cin>>occupy;
+        }
         //Accumulates the total number of rooms
         totRoom+=rooms;
         //Accumulates the total amount of rooms occupied
