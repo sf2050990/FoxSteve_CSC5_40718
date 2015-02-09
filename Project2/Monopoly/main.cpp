@@ -49,7 +49,7 @@ int comChest(string[], char[][7],char[][7], int&,int&,int);                     
 int incTax(string[],int&,int&,bool);                                            //Function prototype for Income Tax
 int luxTax(string[],  int&,int&,bool);                                          //Function prototype for Luxury tax
 int jail(string[], char[][7],char[][7], int&,int&,int);                         //Function prototype for Jail
-int goToJail(string[], char[][7],char[][7], int&,int&,int);                     //Function prototype for Go to Jail
+int goToJail(string[], char[][7],char[][7], int&,int&,bool);                     //Function prototype for Go to Jail
 void  rr1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Reading Railroad
 void  rr2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Pennsylvania Railroad
 void  rr3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for B&O Railroad
@@ -128,8 +128,11 @@ int main()
           //Prompts player 1 to press any key
           cout<<"Player One it is turn. Press enter to continue."<<endl;
           cin.get(ch);
+          if(playr1[10][0]!='j')
           //Function call to get dice roll and store it in player 1 dice total
-          player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie);   
+          player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie);
+          else
+              cout<<"You are in Jail"<<endl;
           //Outputs player 1's total dice roll
           cout<<"Player 1 "<<player1<<endl;
           
@@ -207,7 +210,7 @@ int main()
             else if(player1==29)
                 yellow3(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==30)
-                goToJail(prop, playr1,playr2,bank1,bank2,turn);
+                goToJail(prop, playr1,playr2,player1,player2,turn);
             else if(player1==31)
                 green1(prop, rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==32)
@@ -238,10 +241,14 @@ int main()
             //Prompts Player 2 to press any key
             cout<<"Player Two it is your turn. Press Enter to continue"<<endl;
             cin.get(ch);
+            
+            if(playr2[10][0]!='j')
             //Function call to get dice total and store it in player 2 total
             //dice roll
             player2+=rollDie(prop, playr2,bank1,bank2, turn,&totDie);
-           
+            else
+                cout<<"You are in jail"<<endl;
+            
             //Outputs player 2's total dice roll
             cout<<"Player 2 "<<player2<<endl;
           //Outpurs player 2's total bank
@@ -317,7 +324,7 @@ int main()
             else if(player2==29)
                 yellow3(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==30)
-                goToJail(prop,playr1,playr2,bank1,bank2,turn);
+                goToJail(prop,playr1,playr2,player1,player2,turn);
             else if(player2==31)
                 green1(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player2==32)
@@ -3418,11 +3425,60 @@ int frePark(string prop [])
 }
 int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &bank2,int turn)
 {
-    
+    char choice;
+    static int count1=0;
+    static int count2=0;
+    if(turn==false)
+    {
+    if(playr1[10][0]=='j')
+    {
+    cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
+    cout<<"Press y if you would like to pay $50"<<endl;
+    cin>>choice;
+    count1++;
+    if(choice=='y')
+    {bank1-=50;
+    playr1[10][0]=='?';
+    count1=0;}
+    if(count1>3)
+    {bank1-=50;
+     playr1[10][0]=='?';
+    count1=0;}
+    }
+    else
+        cout<<"You are just visiting jail"<<endl;
+    }
+       if(turn==true)
+    {
+    if(playr2[10][0]=='j')
+    {
+    cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
+    cout<<"Press y if you would like to pay $50"<<endl;
+    cin>>choice;
+    count2++;
+    if(choice=='y')
+    {bank2-=50;
+    playr2[10][0]=='?';
+    count2=0;}
+    if(count2>3)
+    {bank2-=50;
+     playr2[10][0]=='?';
+    count2=0;}
+    }
+    else
+        cout<<"You are just visiting jail"<<endl;
+    }
+
 }
-int goToJail(string prop [],char playr1[][7], char playr2[][7], int &bank1,int &bank2,int turn)
+int goToJail(string prop [],char playr1[][7], char playr2[][7],int &player1, int &player2,bool turn)
 {
-    
+    cout<<"Go to jail. Go directly to Jail do not pass go. Do not Collect $200"<<endl;
+    if (turn==false)
+    {playr1[10][0]=='j';
+    player1==10;}
+    else
+    {   playr2[10][0]=='j';
+    player2==10;}
 }
 int luxTax(string prop [], int &bank1,int &bank2,bool turn)
 {

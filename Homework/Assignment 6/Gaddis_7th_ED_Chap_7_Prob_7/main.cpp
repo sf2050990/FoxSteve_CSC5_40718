@@ -16,7 +16,7 @@ using namespace std;
 float sum(float[][6],float[][6],int);
 float total(float [][6],int);
 float difQuar(float,float,int,int);
-float average(float,float, float,float);
+
 //Function Prototype
 
 //Execution Begins Here!
@@ -88,4 +88,3 @@ float difQuar(float num1,float num2, int num3, int num4)
     cout<<"The difference between Quarter #"<<num3<< " and Quarter #"<<num4<<" is "<<total<<endl;
    
 }
-float average
