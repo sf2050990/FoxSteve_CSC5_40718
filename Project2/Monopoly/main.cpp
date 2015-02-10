@@ -45,7 +45,7 @@ void  blue1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     
 void  blue2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Boardwalk Ave
 void  start();                                                                    //Function prototype Start
 int chance(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int); //Function prototype for Chance
-int comChest(string[], char[][7],char[][7], int&,int&,int);                     //Function prototype for Community Chest
+int comChest(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int);            //Function prototype for Community Chest
 int incTax(string[],int&,int&,bool);                                            //Function prototype for Income Tax
 int luxTax(string[],  int&,int&,bool);                                          //Function prototype for Luxury tax
 int jail(string[], char[][7],char[][7], int&,int&,int);                         //Function prototype for Jail
@@ -57,8 +57,9 @@ void  rr4(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       
 void  elecCom(string[], char[][COL],char[][COL], int&,int&,bool,int);             //Function prototype for Electric Company
 void  watWork(string[], char[][COL], char[][COL],int&,int&,bool,int);             //Function prototype for Water works
 int frePark(string[]);                                                          //Function prototype for Free parking
-int menu(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function Protoptype for house menu.
-
+int menu(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function Prototype for house menu.
+void proView(string[],char[][COL],char [][COL],bool);                                  
+void sell(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for selling properties  
 
 
 //Execution Begins Here!
@@ -77,6 +78,7 @@ int main()
     int rent[row][COL];                         //2D Array that holds properties various rent fees
     int count=0;                                //Counter
     char ch;
+    char choice;
     
     //Prompt game time
     cout<<"Welcome to the game of Monopoly where fortunes are won....and Lost"<<endl;
@@ -138,6 +140,13 @@ int main()
           
           //Outputs player 1's bank total
           cout<<"bank 1 "<<bank1<<endl;
+           purp1(prop,rent, playr1,playr2,bank1,bank2,turn);
+           sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+          cout<<"Player 1 would you like to see the properties you have purchased? Press y for yes"<<endl;
+          cin>>choice;
+          if (choice=='y'||choice=='Y')
+              proView(prop,playr1,playr2,turn);
+          
         
           //Recalibrates player 1's dice roll if its greater than 40
           //Outputs the player has passed go and adds 200
@@ -154,7 +163,7 @@ int main()
            else if(player1==1)
                  purp1(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==2)
-                  comChest(prop, playr1,playr2,bank1,bank2,turn);
+                  comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player1==3)
                    purp2(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==4)
@@ -184,7 +193,7 @@ int main()
             else if(player1==16)
                 orange1(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==17)
-                comChest(prop,playr1,playr2,bank1,bank2,turn);
+                comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player1==18)
                 orange2(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==19)
@@ -216,7 +225,7 @@ int main()
             else if(player1==32)
                 green2(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==33)
-                comChest(prop, playr1,playr2,bank1,bank2,turn);
+                comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player1==34)
                 green3(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==35)
@@ -253,6 +262,7 @@ int main()
             cout<<"Player 2 "<<player2<<endl;
           //Outpurs player 2's total bank
            cout<<"Bank 2 "<<bank2<<endl;
+           proView(prop,playr1,playr2,turn);
            
       //Recalibrates player 2's dice roll if its greater than 40
       //Outputs the player has passed go and adds 200     
@@ -268,7 +278,7 @@ int main()
             else if(player2==1)
                   purp1(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==2)
-                  comChest(prop,playr1,playr2,bank1,bank2,turn);
+                  comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player2==3)
                   purp2(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==4)
@@ -298,7 +308,7 @@ int main()
             else if(player2==16)
                 orange1(prop, rent, playr1,playr2,bank1,bank2,turn);
             else if(player2==17)
-                comChest(prop,playr1,playr2,bank1,bank2,turn);
+                comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player2==18)
                 orange2(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==19)
@@ -330,7 +340,7 @@ int main()
             else if(player2==32)
                 green2(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==33)
-                comChest(prop,playr1,playr2,bank1,bank2,turn);
+                comChest(prop,rent,playr1,playr2,bank1,bank2,turn,player1,player2,totDie);
             else if(player2==34)
                 green3(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==35)
@@ -346,7 +356,7 @@ int main()
            else
                cout<<"ERROR. Somthing Went Wrong!!!"<<endl;
            menu(prop,rent, playr1,playr2,bank1,bank2,turn);
-    }while(bank1>0||bank2>0);
+    }while(bank1>0&&bank2>0);
     if(bank1<0)
         cout<<"Player 1 Loses. Player 2 Wins "<<endl;
     else
@@ -705,7 +715,7 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     
      //Prompts user if they wish to purchase the property and then places a 'b' in players array
     //To indicate that that player 1 owns the property if other player lands on it.
-    cout<<"Welcome to "<<prop[7]<<endl;
+    cout<<"Welcome to "<<prop[8]<<endl;
     if(turn==false&&buy==false)
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
@@ -713,43 +723,43 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
-            playr1[7][0]='b';
-            cout<<"Player 1 Bought "<<prop[7]<<endl;}}
+            playr1[8][0]='b';
+            cout<<"Player 1 Bought "<<prop[8]<<endl;}}
             
     
-    else if(turn==false&&buy==true&&playr1[7][0]=='b')      
+    else if(turn==false&&buy==true&&playr1[8][0]=='b')      
         cout<<"You already own this property"<<endl;
     
      //Player 2 has 4 house and hotel 
-    else if(turn==false&&buy==true&&playr2[7][0]=='b'&&playr2[7][1]=='b'&&playr2[7][2]=='b'&&playr2[7][3]=='b'&&playr2[7][4]=='b'&&playr2[7][5]=='b')
-    { cout<<"Your opponent has a hotel on  "<<prop[7]<<" Player 1 is charged $"<<rent[7][5]<<endl;
-    bank1-=rent[7][5];
-    bank2+=rent[7][5];}
+    else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b'&&playr2[8][2]=='b'&&playr2[8][3]=='b'&&playr2[8][4]=='b'&&playr2[8][5]=='b')
+    { cout<<"Your opponent has a hotel on  "<<prop[8]<<" Player 1 is charged $"<<rent[8][5]<<endl;
+    bank1-=rent[8][5];
+    bank2+=rent[8][5];}
      //Player 2 has 4 house 
-    else if(turn==false&&buy==true&&playr2[7][0]=='b'&&playr2[7][1]=='b'&&playr2[7][2]=='b'&&playr2[7][3]=='b'&&playr2[7][4]=='b')
-    { cout<<"Your opponent has four house on this "<<prop[7]<<" Player 1 is charged "<<rent[7][4]<<endl;
-    bank1-=rent[7][4];
-    bank2+=rent[7][4];}
+    else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b'&&playr2[8][2]=='b'&&playr2[8][3]=='b'&&playr2[8][4]=='b')
+    { cout<<"Your opponent has four house on this "<<prop[8]<<" Player 1 is charged "<<rent[8][4]<<endl;
+    bank1-=rent[8][4];
+    bank2+=rent[8][4];}
      //Player 2 has 3 house 
-    else if(turn==false&&buy==true&&playr2[7][0]=='b'&&playr2[7][1]=='b'&&playr2[7][2]=='b'&&playr2[7][3]=='b')
-    { cout<<"Your opponent has three house on this "<<prop[7]<<" Player 1 is charged $"<<rent[7][3]<<endl;
-    bank1-=rent[7][3];
-    bank2+=rent[7][3];}
+    else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b'&&playr2[8][2]=='b'&&playr2[8][3]=='b')
+    { cout<<"Your opponent has three house on this "<<prop[8]<<" Player 1 is charged $"<<rent[8][3]<<endl;
+    bank1-=rent[8][3];
+    bank2+=rent[8][3];}
      //Player 2 has 2 house 
-    else if(turn==false&&buy==true&&playr2[7][0]=='b'&&playr2[7][1]=='b'&&playr2[7][2]=='b')
-    { cout<<"Your opponent has two house on this "<<prop[7]<<" Player 1 is charged $"<<rent[7][2]<<endl;
-    bank1-=rent[7][2];
-    bank2+=rent[7][2];}
+    else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b'&&playr2[8][2]=='b')
+    { cout<<"Your opponent has two house on this "<<prop[8]<<" Player 1 is charged $"<<rent[8][2]<<endl;
+    bank1-=rent[8][2];
+    bank2+=rent[8][2];}
      //Player 2 has 1 house 
-    else if(turn==false&&buy==true&&playr2[7][0]=='b'&&playr2[7][1]=='b')
+    else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b')
     { cout<<"Your opponent has one house on this "<<prop[7]<<" Player 1 is charged $"<<rent[7][1]<<endl;
-    bank1-=rent[7][1];
-    bank2+=rent[7][1];}
+    bank1-=rent[8][1];
+    bank2+=rent[8][1];}
     //regular rent
-    else if(turn==false&&buy==true&&playr2[7][0]=='b')
-    { cout<<"Your opponent owns "<<prop[7]<< " Player 1 is charged $"<<rent[7][0]<<endl;
-    bank1-=rent[7][0];
-    bank2+=rent[7][0];}
+    else if(turn==false&&buy==true&&playr2[8][0]=='b')
+    { cout<<"Your opponent owns "<<prop[8]<< " Player 1 is charged $"<<rent[8][0]<<endl;
+    bank1-=rent[8][0];
+    bank2+=rent[8][0];}
   else 
         cout<<""<<endl;
     
@@ -763,42 +773,42 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
-            playr2[7][0]='b';
-            cout<<"Player 2 Bought "<<prop[7]<<endl;}}
+            playr2[8][0]='b';
+            cout<<"Player 2 Bought "<<prop[8]<<endl;}}
             
-    else if(turn==true&&buy==true&&playr2[7][0]=='b')      
+    else if(turn==true&&buy==true&&playr2[8][0]=='b')      
         cout<<"You already own this property"<<endl;
      //Player 1 has 4 house and hotel
-    else if(turn==true&&buy==true&&playr1[7][0]=='b'&&playr1[7][1]=='b'&&playr1[7][2]=='b'&&playr1[7][3]=='b'&&playr1[7][4]=='b'&&playr1[7][5]=='b')
-    { cout<<"Your opponent has a Hotel on this "<<prop[7]<<" Player 2 is charged $"<<rent[7][5]<<endl;
-    bank2-=rent[7][5];
-    bank1+=rent[7][5];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b'&&playr1[8][1]=='b'&&playr1[8][2]=='b'&&playr1[8][3]=='b'&&playr1[8][4]=='b'&&playr1[8][5]=='b')
+    { cout<<"Your opponent has a Hotel on this "<<prop[8]<<" Player 2 is charged $"<<rent[8][5]<<endl;
+    bank2-=rent[8][5];
+    bank1+=rent[8][5];}
      //Player 1 has 4 house 
-    else if(turn==true&&buy==true&&playr1[7][0]=='b'&&playr1[7][1]=='b'&&playr1[7][2]=='b'&&playr1[7][3]=='b'&&playr1[7][4]=='b')
-    { cout<<"Your opponent has four house on this "<<prop[7]<<" Player 2 is charged $"<<rent[7][4]<<endl;
-    bank2-=rent[7][4];
-    bank1+=rent[7][4];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b'&&playr1[8][1]=='b'&&playr1[8][2]=='b'&&playr1[8][3]=='b'&&playr1[8][4]=='b')
+    { cout<<"Your opponent has four house on this "<<prop[8]<<" Player 2 is charged $"<<rent[8][4]<<endl;
+    bank2-=rent[8][4];
+    bank1+=rent[8][4];}
      //Player 1 has 3 house 
-    else if(turn==true&&buy==true&&playr1[7][0]=='b'&&playr1[7][1]=='b'&&playr1[7][2]=='b'&&playr1[7][3]=='b')
-    { cout<<"Your opponent has three house on this "<<prop[7]<<" Player 2 is charged $"<<rent[7][3]<<endl;
-    bank2-=rent[7][3];
-    bank1+=rent[7][3];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b'&&playr1[8][1]=='b'&&playr1[8][2]=='b'&&playr1[8][3]=='b')
+    { cout<<"Your opponent has three house on this "<<prop[8]<<" Player 2 is charged $"<<rent[8][3]<<endl;
+    bank2-=rent[8][3];
+    bank1+=rent[8][3];}
      //Player 1 has 2 house 
-    else if(turn==true&&buy==true&&playr1[7][0]=='b'&&playr1[7][1]=='b'&&playr1[7][2]=='b')
-    { cout<<"Your opponent has two house on this "<<prop[7]<<" Player 2 is charged $"<<rent[7][2]<<endl;
-    bank2-=rent[7][2];
-    bank1+=rent[7][2];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b'&&playr1[8][1]=='b'&&playr1[8][2]=='b')
+    { cout<<"Your opponent has two house on this "<<prop[8]<<" Player 2 is charged $"<<rent[8][2]<<endl;
+    bank2-=rent[8][2];
+    bank1+=rent[8][2];}
      //Player 1 has 1 house 
-    else if(turn==true&&buy==true&&playr1[7][0]=='b'&&playr1[7][1]=='b')
-    { cout<<"Your opponent has one house on this "<<prop[7]<<" Player 2 is charged $"<<rent[6][1]<<endl;
-    bank2-=rent[7][1];
-    bank1+=rent[7][1];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b'&&playr1[8][1]=='b')
+    { cout<<"Your opponent has one house on this "<<prop[8]<<" Player 2 is charged $"<<rent[8][1]<<endl;
+    bank2-=rent[8][1];
+    bank1+=rent[8][1];}
     //Regular rent
     
-    else if(turn==true&&buy==true&&playr1[7][0]=='b')
-    { cout<<"Your opponent owns "<<prop[7]<< " Player 2 is charged $"<<rent[7][0]<<endl;
-    bank2-=rent[7][0];
-    bank1+=rent[7][0];}
+    else if(turn==true&&buy==true&&playr1[8][0]=='b')
+    { cout<<"Your opponent owns "<<prop[8]<< " Player 2 is charged $"<<rent[8][0]<<endl;
+    bank2-=rent[8][0];
+    bank1+=rent[8][0];}
     
     else
         cout<<""<<endl;
@@ -2779,6 +2789,7 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
               break;
         case 8:cout<<"Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200"<<endl;
                player1=10;
+               playr1[10][0]='j';
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
                break;
@@ -2799,6 +2810,9 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
                  blue2(prop,rent,playr1, playr2,bank1,bank2,turn);
                 break;
         case 13:cout<<"You have been elected Chairman of the Board – Pay each player $50"<<endl;
+                bank1-=100;
+                bank2+=100;
+                break;
         case 14:cout<<"Your building loan matures – Collect $150"<<endl;
                 bank1+=150;
                 break;
@@ -2879,6 +2893,7 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
               break;
         case 8:cout<<"Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200"<<endl;
                player2=10;
+               playr2[10][0]='j';
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
         case 10:cout<<"Pay poor tax of $15"<<endl;
@@ -2898,7 +2913,9 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
                  blue2(prop,rent,playr1, playr2,bank1,bank2,turn);
                 break;
         case 13:cout<<"You have been elected Chairman of the Board – Pay each player $50"<<endl;
-        break;
+               bank1+=100;
+               bank2-=100;
+               break;
         case 14:cout<<"Your building loan matures – Collect $150"<<endl;
                 bank2+=150;
                 break;
@@ -2908,9 +2925,139 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
     }
     }   
 }
-int comChest(string prop [],char playr1[][7], char playr2[][7], int &bank1,int &bank2,int turn)
+int comChest(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL], 
+          int &bank1,int &bank2,bool turn,int &player1,int &player2,int totDie)
 {
+       
+    //Declare variables
+    unsigned seed=static_cast<int>(time(0));
+    srand(seed);                               //Random number generator
+    int chance;                                //Holds random number
+    chance=rand()%16+1;                        //Limits range to 1-15 and stores number
+    //Prompts location
+    cout<<"Welcome to Community Chest"<<endl;
     
+    //Conditionally executes if its player 1's turn
+    if(turn==false)
+    {
+   //Conditionally executes depending on random number generated. All choices
+   //are based on the real community chest cards from the game and if the card sends
+   //Player one to a location a function call to that property is enabled and total
+   // dice count reflects this position 
+    switch(chance)
+    {
+        case 1: cout<<"Advance to Go. Collect $200"<<endl;
+                player1=0;
+                bank1+=200;
+                break;
+        case 2:cout<<"Bank error in your favor. Collect $75"<<endl;
+               bank1+=75;
+               break;
+        case 3:cout<<"Doctor's Fee. Pay 50$"<<endl;
+               bank1-=50;
+               break;
+        case 4:cout<<"Get out of jail Free card"<<endl;
+               playr1[10][0]='f';
+               break;
+        case 5:cout<<"Its your birthday. Collect 10$ from each player"<<endl;
+               bank1+=10;
+               bank2-=10;
+               break;
+        case 6:cout<<"Grand Opera night. Collect $50 from every player"<<endl;
+               bank1+=50;
+               bank2-=50;
+               break;
+        case 7:cout<<"Income Tax refund. Collect $20"<<endl;
+               bank1+=20;
+               break;
+        case 8:cout<<"Life insurance matures. Collect $100"<<endl;
+               bank1+=100;
+               break;
+        case 9:cout<<"Pay hospital fee of $100"<<endl;
+               bank1-=100;
+               break;
+        case 10:cout<<"Pay school fee of $50"<<endl;
+               bank1-=50;
+               break;
+        case 11:cout<<"Receive $25 Consultancy Fee"<<endl;
+                bank1-=25;
+                break;
+        case 12:cout<<"You are assessed for street repairs. $40 per house. $115 per Hotel"<<endl;
+                break;
+        case 13:cout<<"You have won 2nd place in a beauty contest. Collect $10"<<endl;
+                bank1+=10;
+                break;
+        case 14:cout<<"You inherit $100"<<endl;
+                bank1+=100;
+                break;
+        case 15:cout<<"From sale of stock you get $50"<<endl;
+                bank1+=50;
+                break;
+        case 16:cout<<"Holiday fund matures. Receive $100"<<endl;
+                bank1+=100;
+                break;
+    }
+    }
+      if(turn==true)
+    {
+   //Conditionally executes depending on random number generated. All choices
+   //are based on the real community chest cards from the game and if the card sends
+   //Player one to a location a function call to that property is enabled and total
+   // dice count reflects this position 
+    switch(chance)
+    {
+        case 1: cout<<"Advance to Go. Collect $200"<<endl;
+                player2=0;
+                bank2+=200;
+                break;
+        case 2:cout<<"Bank error in your favor. Collect $75"<<endl;
+               bank2+=75;
+               break;
+        case 3:cout<<"Doctor's Fee. Pay 50$"<<endl;
+               bank2-=50;
+               break;
+        case 4:cout<<"Get out of jail Free card"<<endl;
+               playr2[10][0]='f';
+               break;
+        case 5:cout<<"Its your birthday. Collect 10$ from each player"<<endl;
+               bank2+=10;
+               bank1-=10;
+               break;
+        case 6:cout<<"Grand Opera night. Collect $50 from every player"<<endl;
+               bank2+=50;
+               bank1-=50;
+               break;
+        case 7:cout<<"Income Tax refund. Collect $20"<<endl;
+               bank2+=20;
+               break;
+        case 8:cout<<"Life insurance matures. Collect $100"<<endl;
+               bank2+=100;
+               break;
+        case 9:cout<<"Pay hospital fee of $100"<<endl;
+               bank2-=100;
+               break;
+        case 10:cout<<"Pay school fee of $50"<<endl;
+               bank2-=50;
+               break;
+        case 11:cout<<"Receive $25 Consultancy Fee"<<endl;
+                bank2-=25;
+                break;
+        case 12:cout<<"You are assessed for street repairs. $40 per house. $115 per Hotel"<<endl;
+                break;
+        case 13:cout<<"You have won 2nd place in a beauty contest. Collect $10"<<endl;
+                bank2+=10;
+                break;
+        case 14:cout<<"You inherit $100"<<endl;
+                bank2+=100;
+                break;
+        case 15:cout<<"From sale of stock you get $50"<<endl;
+                bank2+=50;
+                break;
+        case 16:cout<<"Holiday fund matures. Receive $100"<<endl;
+                bank2+=100;
+                break;
+    }
+    }
 }
 void rr1(string prop [],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
 {
@@ -4400,4 +4547,1187 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 }
     }}
 
+}
+void proView(string prop[],char playr1[][COL], char playr2[][COL], bool turn)
+{
+    if(turn==false)
+        cout<<"Player one you own the following properties:"<<endl;
+    for(int count=0;count<40;count++)
+    {
+        if(playr1[count][0]=='b')
+            cout<<prop[count]<<endl;
+    }
+      if(turn==true)
+        cout<<"Player Two you own the following properties:"<<endl;
+    for(int count=0;count<40;count++)
+    {
+        if(playr2[count][0]=='b')
+            cout<<prop[count]<<endl;
+    }
+}
+void sell(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
+{
+    //Declare variables
+    string sell;                                   //Holds property to sell
+    int price;                                     //Price of sale
+    char choice;                                   //Players choice to buy
+    char cont;                                    //Holds players decision to sell another  
+    //Conditionally executes if it is player one's turn
+    if(turn==false)
+    {
+        do{
+    //Outputs the list of properties to sell  
+     cout<<"Here is the list of properties that Player 1 one can sell"<<endl;
+         cout<<"Player one you own the following properties:"<<endl;
+    //Loops through and outputs properties     
+    for(int count=0;count<40;count++)
+    {
+        if(playr1[count][0]=='b')
+            cout<<prop[count]<<endl;
+    }
+         //Prompts user to type the properties name he wishes to sell
+         cout<<"Please select the property you wish to sell. Type with underscore between words and abbreviate Avenue with Ave"<<endl;
+         cout<<"Example Baltic_Ave"<<endl;
+         cin>>sell;
+         //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[1]&&playr1[1][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[1]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[1]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[1]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[1][0]='?';
+                 playr2[1][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[3]&&playr1[3][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[3]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[3]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[3]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[3][0]='?';
+                 playr2[3][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[5]&&playr1[5][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[5]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[5]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[5]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[5][0]='?';
+                 playr2[5][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[6]&&playr1[6][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[6]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[6]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[6]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[6][0]='?';
+                 playr2[6][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[8]&&playr1[8][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[8]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[8]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[8]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[8][0]='?';
+                 playr2[8][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[9]&&playr1[9][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[9]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[9]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[9]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[9][0]='?';
+                 playr2[9][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[11]&&playr1[11][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[11]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[11]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[11]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[11][0]='?';
+                 playr2[11][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[12]&&playr1[12][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[12]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[12]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[12]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[12][0]='?';
+                 playr2[12][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[13]&&playr1[13][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[13]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[13]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[13]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[13][0]='?';
+                 playr2[13][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[14]&&playr1[14][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[14]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[14]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[14]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[14][0]='?';
+                 playr2[14][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[15]&&playr1[15][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[15]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[15]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[15]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[15][0]='?';
+                 playr2[15][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[16]&&playr1[16][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[16]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[16]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[16]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[16][0]='?';
+                 playr2[16][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[18]&&playr1[18][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[18]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[18]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[18]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[18][0]='?';
+                 playr2[18][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[19]&&playr1[19][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[19]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[19]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[19]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[19][0]='?';
+                 playr2[19][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[21]&&playr1[21][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[21]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[21]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[21]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[21][0]='?';
+                 playr2[21][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[23]&&playr1[23][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[23]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[23]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[23]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[23][0]='?';
+                 playr2[23][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[24]&&playr1[24][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[24]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[24]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[24]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[24][0]='?';
+                 playr2[24][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[25]&&playr1[25][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[25]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[25]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[25]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[25][0]='?';
+                 playr2[25][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[26]&&playr1[26][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[26]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[26]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[26]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[26][0]='?';
+                 playr2[26][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[27]&&playr1[27][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[27]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[27]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[27]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[27][0]='?';
+                 playr2[27][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[28]&&playr1[28][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[28]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[28]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[28]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[28][0]='?';
+                 playr2[28][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[29]&&playr1[29][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[29]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[29]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[29]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[29][0]='?';
+                 playr2[29][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[31]&&playr1[31][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[31]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[31]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[31]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[31][0]='?';
+                 playr2[31][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[32]&&playr1[32][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[32]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[32]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[32]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[32][0]='?';
+                 playr2[32][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[34]&&playr1[34][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[34]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[34]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[34]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[34][0]='?';
+                 playr2[34][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[35]&&playr1[35][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[1]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[35]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[35]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[35][0]='?';
+                 playr2[35][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[37]&&playr1[37][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[37]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[37]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[37]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[37][0]='?';
+                 playr2[37][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[39]&&playr1[39][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[39]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 2 Player 1 would like to sell you "<<prop[39]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 1 sold player 2 "<<prop[39]<<" for $"<<price<<endl;
+                 bank1+=price;
+                 bank2-=price;
+                 playr1[39][0]='?';
+                 playr2[1][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+         cout<<"Would you like to sell another property? Press y for yes"<<endl;
+         cin>>cont;
+        }while(cont=='y'||cont=='Y');
+    }
+    //Conditionally executes if it is player one's turn
+    if(turn==true)
+    {
+    //Outputs the list of properties to sell  
+     cout<<"Here is the list of properties that Player 2 can sell"<<endl;
+         cout<<"Player 2 you own the following properties:"<<endl;
+    //Loops through and outputs properties     
+    for(int count=0;count<40;count++)
+    {
+        if(playr2[count][0]=='b')
+            cout<<prop[count]<<endl;
+    }
+         //Prompts user to type the properties name he wishes to sell
+         cout<<"Please select the property you wish to sell. Type with underscore between words and abbreviate Avenue with Ave"<<endl;
+         cout<<"Example Baltic_Ave"<<endl;
+         cin>>sell;
+         //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[1]&&playr2[1][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[1]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[1]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[1]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[1][0]='?';
+                 playr1[1][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[3]&&playr2[3][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[3]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[3]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[3]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[3][0]='?';
+                 playr1[3][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[5]&&playr2[5][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[5]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[5]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[5]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[5][0]='?';
+                 playr1[5][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[6]&&playr2[6][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[6]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[6]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[6]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[6][0]='?';
+                 playr1[6][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[8]&&playr2[8][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[8]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[8]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[8]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[8][0]='?';
+                 playr1[8][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[9]&&playr2[9][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[9]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[9]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[9]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[9][0]='?';
+                 playr1[9][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[11]&&playr2[11][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[11]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[11]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[11]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[11][0]='?';
+                 playr1[11][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[12]&&playr2[12][0]=='b')
+         { cout<<"Player 1 you wish to sell "<<prop[12]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[12]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[12]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[12][0]='?';
+                 playr1[12][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[13]&&playr2[13][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[13]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[13]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[13]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[13][0]='?';
+                 playr1[13][0]='b';}
+             else
+                 cout<<"Player 2 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[14]&&playr2[14][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[14]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 2
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[14]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[14]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[14][0]='?';
+                 playr1[14][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[15]&&playr2[15][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[15]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[15]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[15]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[15][0]='?';
+                 playr1[15][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[16]&&playr2[16][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[16]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[16]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[16]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[16][0]='?';
+                 playr1[16][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[18]&&playr2[18][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[18]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[18]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[18]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[18][0]='?';
+                 playr1[18][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[19]&&playr2[19][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[19]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[19]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[19]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[19][0]='?';
+                 playr1[19][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[21]&&playr2[21][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[21]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[21]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[21]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[21][0]='?';
+                 playr1[21][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[23]&&playr2[23][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[23]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[23]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[23]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[23][0]='?';
+                 playr1[23][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[24]&&playr2[24][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[24]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[24]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[24]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[24][0]='?';
+                 playr1[24][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[25]&&playr2[25][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[25]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[25]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[25]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[25][0]='?';
+                 playr1[25][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[26]&&playr2[26][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[26]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[26]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[26]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[26][0]='?';
+                 playr1[26][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[27]&&playr2[27][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[27]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[27]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2  sold player 1 "<<prop[27]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[27][0]='?';
+                 playr1[27][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[28]&&playr2[28][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[28]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[28]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[28]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[28][0]='?';
+                 playr1[28][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[29]&&playr2[29][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[29]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[29]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[29]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[29][0]='?';
+                 playr1[29][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[31]&&playr2[31][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[31]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[31]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[31]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[31][0]='?';
+                 playr1[31][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[32]&&playr2[32][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[32]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[32]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[32]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[32][0]='?';
+                 playr1[32][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[34]&&playr2[34][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[34]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[34]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[34]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[34][0]='?';
+                 playr1[34][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[35]&&playr2[35][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[1]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[35]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[35]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[35][0]='?';
+                 playr1[35][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[37]&&playr2[37][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[37]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[37]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[37]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[37][0]='?';
+                 playr1[37][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+           //Conditionally executes if player types the name and owns a given property
+         //Prompts user for the sales price he wishes to purchase
+         if(sell==prop[39]&&playr2[39][0]=='b')
+         { cout<<"Player 2 you wish to sell "<<prop[39]<<". How much would you"<<endl;
+             cout<<"like to sell it for?"<<endl;
+             cin>>price;
+             //Confirms sale with player 1
+             cout<<"Player 1 Player 2 would like to sell you "<<prop[39]<<" for $"<<price<<"?"<<endl;
+             cout<<"Press y if you would like complete this transaction"<<endl;
+             cin>>choice;
+             //Switches ownership of property and calculates banking costa
+             if(choice=='y'||choice=='Y')
+             { cout<<"Player 2 sold player 1 "<<prop[39]<<" for $"<<price<<endl;
+                 bank2+=price;
+                 bank1-=price;
+                 playr2[39][0]='?';
+                 playr1[1][0]='b';}
+             else
+                 cout<<"Player 1 has declined your offer"<<endl;
+         }
+    }
 }
