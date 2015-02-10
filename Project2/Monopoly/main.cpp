@@ -20,7 +20,7 @@ using namespace std;
 
 const int COL=7;                                                               //Global constant for columns
 //Function Prototype
-int rollDie(string [], char [][7],int&,int&, int,int *);                        //Function prototype for rolling die
+int rollDie(string [], char [][7],int&,int&, int,int *,int *);                  //Function prototype for rolling die
 void purp1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for Mediterranean Avenue
 void  purp2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Baltic Avenue
 void teal1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Oriental_Ave
@@ -49,7 +49,7 @@ int comChest(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &
 int incTax(string[],int&,int&,bool);                                            //Function prototype for Income Tax
 int luxTax(string[],  int&,int&,bool);                                          //Function prototype for Luxury tax
 int jail(string[], char[][7],char[][7], int&,int&,int);                         //Function prototype for Jail
-int goToJail(string[], char[][7],char[][7], int&,int&,bool);                     //Function prototype for Go to Jail
+int goToJail(string[], char[][7],char[][7], int&, int&, int&,int&,bool);                     //Function prototype for Go to Jail
 void  rr1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Reading Railroad
 void  rr2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Pennsylvania Railroad
 void  rr3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for B&O Railroad
@@ -78,7 +78,12 @@ int main()
     int rent[row][COL];                         //2D Array that holds properties various rent fees
     int count=0;                                //Counter
     char ch;
-    char choice;
+    char choice;                                //Holds value if a player would like to make another menu selection 
+    int menuCh;                                 //Holds character for players menu choice
+    int times=0;                                  //Records the number of rolls in a given turn
+  
+
+    
     
     //Prompt game time
     cout<<"Welcome to the game of Monopoly where fortunes are won....and Lost"<<endl;
@@ -120,33 +125,60 @@ int main()
     
     //Loops while bank accounts are not negative
     do
-    {
-        //Declare variables
+    {//Declare variables
         int totDie;                      //Total die roll
         bool turn=false;                //Bool false for player 1's turn
+        int  dbls=0;                    //indicates if user rolled doubles
+        
+           
         //Player 1's turn
         if(turn==false)
         {  
+         //Loops if doubles is rolled
+          do{  
+           dbls=0;                    //indicates if user rolled doubles
           //Prompts player 1 to press any key
-          cout<<"Player One it is turn. Press enter to continue."<<endl;
+          cout<<endl<<"Player One it is turn. Press enter to continue."<<endl;
           cin.get(ch);
-          if(playr1[10][0]!='j')
-          //Function call to get dice roll and store it in player 1 dice total
-          player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie);
-          else
-              cout<<"You are in Jail"<<endl;
+       
+        //Loops while menu choice is yes
+          do{
           //Outputs player 1's total dice roll
-          cout<<"Player 1 "<<player1<<endl;
-          
+          cout<<"Player 1 "<<player1<<endl; 
           //Outputs player 1's bank total
-          cout<<"bank 1 "<<bank1<<endl;
-           purp1(prop,rent, playr1,playr2,bank1,bank2,turn);
-           sell(prop,rent, playr1,playr2,bank1,bank2,turn);
-          cout<<"Player 1 would you like to see the properties you have purchased? Press y for yes"<<endl;
-          cin>>choice;
-          if (choice=='y'||choice=='Y')
-              proView(prop,playr1,playr2,turn);
+          cout<<"Bank 1 "<<bank1<<endl;
+          cout<<"Please make a menu selection:"<<endl;
+          cout<<"1: Roll Dice"<<endl;
+          cout<<"2: View properties"<<endl;
+          cout<<"3:Sell Property"<<endl;
+          cout<<"4: Buy houses and Hotels"<<endl;
+          cin>>menuCh;
           
+          //Switch statement to execute users choice
+          switch(menuCh)
+          {
+              case 1:if(times==0)
+                     //Function call to get dice roll and store it in player 1 dice total
+                     player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+              else
+                  cout<<"You can't roll twice in a turn";
+                 times++;
+                     break;
+                     //Function call to view properties
+              case 2:proView(prop,playr1,playr2,turn);
+                     break;
+                     //Function call to sell properties;
+              case 3:sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+                     //Function call to buy shouses and hotels  
+              case 4: menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              default:cout<<"You have made an invalid menu choice"<<endl;
+          }
+          cout<<" Would you like to make another menu selection"<<endl;
+          cin>>choice;
+          }while(choice=='y'||choice=='Y');        
+          times=0;
         
           //Recalibrates player 1's dice roll if its greater than 40
           //Outputs the player has passed go and adds 200
@@ -154,7 +186,10 @@ int main()
         { player1-=39;
           cout<<"Player 1 Passed Go!!Collect $200!!"<<endl;
           cout<<"Player 1  "<<player1<<endl;
-         bank1+=200;}}
+         bank1+=200;}
+        if(playr1[10][0]=='j')
+        {cout<<"You are in jail"<<endl;
+        player1=10;}
         
         //Conditionally executes depending of player 1' total dice roll and the makes 
         //a function call to corresponding property
@@ -219,7 +254,7 @@ int main()
             else if(player1==29)
                 yellow3(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==30)
-                goToJail(prop, playr1,playr2,player1,player2,turn);
+                goToJail(prop, playr1,playr2,bank1,bank2,player1,player2,turn);
             else if(player1==31)
                 green1(prop, rent, playr1,playr2,bank1,bank2,turn);
             else if(player1==32)
@@ -241,36 +276,73 @@ int main()
            else
              cout<<"ERROR. Somthing Went Wrong!!!"<<endl;
         
-           menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+        }while(dbls==1);
            //Bool switch to true to indicate its player 2's turn
            turn=true;
-    //Player 2
+          
+    }
+    //Player 2 turn
     if(turn=true)
         {   
+        //loops if doubles are rolled
+         do{
+               dbls=0;                    //indicates if user rolled doubles
+        
+       
             //Prompts Player 2 to press any key
-            cout<<"Player Two it is your turn. Press Enter to continue"<<endl;
+            cout<<endl<<"Player Two it is your turn. Press Enter to continue"<<endl;
             cin.get(ch);
-            
-            if(playr2[10][0]!='j')
-            //Function call to get dice total and store it in player 2 total
-            //dice roll
-            player2+=rollDie(prop, playr2,bank1,bank2, turn,&totDie);
-            else
-                cout<<"You are in jail"<<endl;
-            
-            //Outputs player 2's total dice roll
-            cout<<"Player 2 "<<player2<<endl;
-          //Outpurs player 2's total bank
-           cout<<"Bank 2 "<<bank2<<endl;
-           proView(prop,playr1,playr2,turn);
            
-      //Recalibrates player 2's dice roll if its greater than 40
+          
+      
+           do{
+           //Outputs player 2's total dice roll
+            cout<<"Player 2 "<<player2<<endl;    
+          //Outputs player 1's bank total
+          cout<<"Bank 2 "<<bank2<<endl;
+          cout<<"Please make a menu selection:"<<endl;
+          cout<<"1: Roll Dice"<<endl;
+          cout<<"2: View properties"<<endl;
+          cout<<"3:Sell Property"<<endl;
+          cout<<"4: Buy houses and Hotels"<<endl;
+          cin>>menuCh;
+          
+          switch(menuCh)
+          {
+              case 1:if(times==0)
+                     //Function call to get dice roll and store it in player 2 dice total
+                     player2+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+                    else
+                        cout<<"You cannot roll twice in a turn"<<endl;
+                        times++;
+                     break;
+                     //Function call to view purchased properties
+              case 2:proView(prop,playr1,playr2,turn);
+                     break;
+                     //Function call to sell property
+              case 3:sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+                     //Function  call to buy houses
+              case 4: menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              default:cout<<"You have made an invalid menu choice"<<endl;
+          }
+          cout<<" Would you like to make another menu selection"<<endl;
+          cin>>choice;
+          }while(choice=='y'||choice=='Y');      
+          times=0;
+          
+         if(playr2[10][0]=='j')
+        {cout<<"You are in jail"<<endl;
+        player2=10;}
+          //Recalibrates player 2's dice roll if its greater than 40
       //Outputs the player has passed go and adds 200     
       if(player2>39)
         {player2-=39;
         cout<<"Player 2 Passed Go!!Collect $200!!"<<endl;
          cout<<"Player 2  "<<player2<<endl; 
-        bank2+=200;}}
+          bank2+=200;}
+           //Loops to give user a menu choice
             //Conditionally executes depending of player 2' total dice roll and the makes 
             //a function call to corresponding property
             if (player2==0)
@@ -334,7 +406,7 @@ int main()
             else if(player2==29)
                 yellow3(prop,rent,playr1,playr2,bank1,bank2,turn);
             else if(player2==30)
-                goToJail(prop,playr1,playr2,player1,player2,turn);
+                goToJail(prop,playr1,playr2,bank1,bank2,player1,player2,turn);
             else if(player2==31)
                 green1(prop,rent, playr1,playr2,bank1,bank2,turn);
             else if(player2==32)
@@ -355,16 +427,19 @@ int main()
                blue2(prop,rent,playr1, playr2,bank1,bank2,turn);
            else
                cout<<"ERROR. Somthing Went Wrong!!!"<<endl;
-           menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+    }while(dbls==1);
+   
+    }     
     }while(bank1>0&&bank2>0);
     if(bank1<0)
         cout<<"Player 1 Loses. Player 2 Wins "<<endl;
     else
     cout<<"Player 2 Loses. Player 1 Wins "<<endl;
     return 0;
-}
+    }
+
 //RollDie Function
-int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn,int *totDie)
+int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn,int *totDie, int *dbls)
 {
     //Declare variables
     int die1;                                //Holds dice one's value
@@ -372,11 +447,11 @@ int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn,i
     int sum;                                 //Calculates sum
     int total;                               //Accumululates various dice rolls when doubles are thrown
     unsigned seed=static_cast<int>(time(0)); //seed for random number generator
+ 
     srand(seed);                             //Random number generator
    
     //Loops if the dice are the same
-    do 
-    {
+   
        die1=rand()%6+1;                     //Die one
        die2=rand()%6+1;                     //Die two
        //Calculates sum
@@ -384,17 +459,18 @@ int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn,i
     //pointer to totDie   
     *totDie=sum;
     //Conditionally executes when both dies equal each other
+    
     if(die1==die2)
-       cout<<"You got doubles!! You get to go again!!"<<endl;
+    {cout<<"You got doubles!! You get to go again!!"<<endl;
         cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
+      
+        *dbls=1;
         //returns sum to players total dice roll
         return sum;
-        total+=sum;
-        
-    
-    }while(die1==die2);
-    
-    return total;
+        total+=sum;}
+    else 
+    { cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
+        return sum;}
 }
 //Function purp1
 void  purp1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
@@ -2790,6 +2866,7 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         case 8:cout<<"Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200"<<endl;
                player1=10;
                playr1[10][0]='j';
+                jail(prop, playr1,playr2,bank1,bank2,turn);
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
                break;
@@ -2894,8 +2971,10 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         case 8:cout<<"Go to Jail – Go directly to Jail – Do not pass Go, do not collect $200"<<endl;
                player2=10;
                playr2[10][0]='j';
+               jail(prop, playr1,playr2,bank1,bank2,turn);
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
+               break;
         case 10:cout<<"Pay poor tax of $15"<<endl;
                 bank2-=15;
                 break;
@@ -3575,6 +3654,8 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     char choice;
     static int count1=0;
     static int count2=0;
+    
+    //Player ones turn
     if(turn==false)
     {
     if(playr1[10][0]=='j')
@@ -3583,13 +3664,13 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     cout<<"Press y if you would like to pay $50"<<endl;
     cin>>choice;
     count1++;
-    if(choice=='y')
+    if(choice=='y'||choice=='Y')
     {bank1-=50;
-    playr1[10][0]=='?';
+    playr1[10][0]='?';
     count1=0;}
     if(count1>3)
     {bank1-=50;
-     playr1[10][0]=='?';
+     playr1[10][0]='?';
     count1=0;}
     }
     else
@@ -3603,13 +3684,13 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     cout<<"Press y if you would like to pay $50"<<endl;
     cin>>choice;
     count2++;
-    if(choice=='y')
+    if(choice=='y'||choice=='Y')
     {bank2-=50;
-    playr2[10][0]=='?';
+    playr2[10][0]='?';
     count2=0;}
     if(count2>3)
     {bank2-=50;
-     playr2[10][0]=='?';
+     playr2[10][0]='?';
     count2=0;}
     }
     else
@@ -3617,15 +3698,18 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     }
 
 }
-int goToJail(string prop [],char playr1[][7], char playr2[][7],int &player1, int &player2,bool turn)
+int goToJail(string prop [],char playr1[][7], char playr2[][7], int &bank1, int &bank2, int &player1, int &player2,bool turn)
 {
     cout<<"Go to jail. Go directly to Jail do not pass go. Do not Collect $200"<<endl;
     if (turn==false)
-    {playr1[10][0]=='j';
-    player1==10;}
-    else
-    {   playr2[10][0]=='j';
-    player2==10;}
+    {playr1[10][0]='j';
+    player1=10;
+     jail(prop, playr1,playr2,bank1,bank2,turn);}
+    
+    if(turn==true)
+    {   playr2[10][0]='j';
+    player2=10;
+     jail(prop, playr1,playr2,bank1,bank2,turn);}
 }
 int luxTax(string prop [], int &bank1,int &bank2,bool turn)
 {
