@@ -20,6 +20,7 @@ using namespace std;
 
 const int COL=7;                                                               //Global constant for columns
 //Function Prototype
+int rollDie(string [], char [][7],int&,int&, int);
 int rollDie(string [], char [][7],int&,int&, int,int *,int *);                  //Function prototype for rolling die
 void purp1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for Mediterranean Avenue
 void  purp2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Baltic Avenue
@@ -60,8 +61,9 @@ int frePark(string[]);                                                          
 int menu(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function Prototype for house menu.
 void proView(string[],char[][COL],char [][COL],bool);                                  
 void sell(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for selling properties  
-
-
+void sellhs(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);    //Function prototype to sell houses
+void hsrep(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int=40,int=115);     //Function prototype to calculate house repairs for community chest
+void hsrep2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype to calculate house repairs for chance
 //Execution Begins Here!
 
 int main()
@@ -160,9 +162,13 @@ int main()
               case 1:if(times==0)
                      //Function call to get dice roll and store it in player 1 dice total
                      player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+              else if(times>0)
+              {cout<<"You can't roll twice in a turn"<<endl;
+                 times++;}
+              else if(playr1[10][0]=='j')
+                  cout<<"You are in jail"<<endl;
               else
-                  cout<<"You can't roll twice in a turn";
-                 times++;
+                  cout<<"Something went wrong"<<endl;
                      break;
                      //Function call to view properties
               case 2:proView(prop,playr1,playr2,turn);
@@ -179,7 +185,8 @@ int main()
           cin>>choice;
           }while(choice=='y'||choice=='Y');        
           times=0;
-        
+    
+          
           //Recalibrates player 1's dice roll if its greater than 40
           //Outputs the player has passed go and adds 200
           if(player1>39)
@@ -190,6 +197,8 @@ int main()
         if(playr1[10][0]=='j')
         {cout<<"You are in jail"<<endl;
         player1=10;}
+          
+        
         
         //Conditionally executes depending of player 1' total dice roll and the makes 
         //a function call to corresponding property
@@ -293,8 +302,7 @@ int main()
             cout<<endl<<"Player Two it is your turn. Press Enter to continue"<<endl;
             cin.get(ch);
            
-          
-      
+
            do{
            //Outputs player 2's total dice roll
             cout<<"Player 2 "<<player2<<endl;    
@@ -342,6 +350,9 @@ int main()
         cout<<"Player 2 Passed Go!!Collect $200!!"<<endl;
          cout<<"Player 2  "<<player2<<endl; 
           bank2+=200;}
+            
+         
+       
            //Loops to give user a menu choice
             //Conditionally executes depending of player 2' total dice roll and the makes 
             //a function call to corresponding property
@@ -472,6 +483,39 @@ int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn,i
     { cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
         return sum;}
 }
+int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn)
+{
+    //Declare variables
+    int die1;                                //Holds dice one's value
+    int die2;                                //Hold dice two's value
+    int sum;                                 //Calculates sum
+    int total;                               //Accumululates various dice rolls when doubles are thrown
+    unsigned seed=static_cast<int>(time(0)); //seed for random number generator
+    int dbls;                                //stores doubles
+    srand(seed);                             //Random number generator
+   
+    //Loops if the dice are the same
+   
+       die1=rand()%6+1;                     //Die one
+       die2=rand()%6+1;                     //Die two
+       //Calculates sum
+       sum=die1+die2;  
+    //pointer to totDie   
+   
+    //Conditionally executes when both dies equal each other
+    
+    if(die1==die2)
+    {cout<<"You got doubles!! You get to go again!!"<<endl;
+        cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
+      
+        
+        //returns sum to players total dice roll
+        return dbls;
+        total+=sum;}
+    else 
+    { cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
+        }
+}
 //Function purp1
 void  purp1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
 {
@@ -486,6 +530,16 @@ void  purp1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+        
+        //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -535,6 +589,15 @@ void  purp1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -588,6 +651,15 @@ void  purp2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+      while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -637,6 +709,15 @@ void  purp2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+      while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -691,6 +772,15 @@ void  teal1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
     
@@ -741,6 +831,15 @@ void  teal1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -796,6 +895,15 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -828,7 +936,7 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     bank2+=rent[8][2];}
      //Player 2 has 1 house 
     else if(turn==false&&buy==true&&playr2[8][0]=='b'&&playr2[8][1]=='b')
-    { cout<<"Your opponent has one house on this "<<prop[7]<<" Player 1 is charged $"<<rent[7][1]<<endl;
+    { cout<<"Your opponent has one house on this "<<prop[8]<<" Player 1 is charged $"<<rent[8][1]<<endl;
     bank1-=rent[8][1];
     bank2+=rent[8][1];}
     //regular rent
@@ -846,6 +954,15 @@ void  teal2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -901,6 +1018,15 @@ void  teal3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -950,6 +1076,15 @@ void  teal3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1006,6 +1141,15 @@ void  pink1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1054,7 +1198,15 @@ void  pink1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
-        cin>>choice;
+        cin>>choice; //Validates entry
+     while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1111,6 +1263,15 @@ void  pink2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1160,6 +1321,15 @@ void  pink2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+      while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1215,6 +1385,15 @@ void  pink3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1264,6 +1443,15 @@ void  pink3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1319,6 +1507,15 @@ void  orange1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1369,6 +1566,15 @@ void  orange1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1427,6 +1633,15 @@ void  orange2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1476,6 +1691,15 @@ void  orange2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1531,6 +1755,15 @@ void  orange3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1580,6 +1813,15 @@ void  orange3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1636,6 +1878,15 @@ void  red1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1685,6 +1936,15 @@ void  red1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for "<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1742,6 +2002,15 @@ void  red2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1791,6 +2060,15 @@ void  red2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1848,6 +2126,15 @@ void red3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL]
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -1897,6 +2184,15 @@ void red3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL]
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -1954,6 +2250,15 @@ void yellow1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2003,6 +2308,15 @@ void yellow1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<< "Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2059,6 +2373,15 @@ void yellow2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2108,6 +2431,15 @@ void yellow2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2164,6 +2496,15 @@ static bool buy=false;                         //Bool that indicates the propert
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2214,6 +2555,15 @@ static bool buy=false;                         //Bool that indicates the propert
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2271,6 +2621,15 @@ void green1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2319,8 +2678,16 @@ void green1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
-                
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2377,6 +2744,15 @@ void green2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2426,6 +2802,15 @@ void green2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2482,6 +2867,15 @@ void green3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+        //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2531,6 +2925,15 @@ void green3(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2586,6 +2989,15 @@ void blue1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2635,6 +3047,15 @@ void blue1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2690,6 +3111,15 @@ void blue2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -2739,6 +3169,15 @@ void blue2(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -2869,6 +3308,7 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
                 jail(prop, playr1,playr2,bank1,bank2,turn);
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
+               hsrep2(prop,rent, playr1,playr2,bank1,bank2,turn);
                break;
         case 10:cout<<"Pay poor tax of $15"<<endl;
                 bank1-=15;
@@ -2974,6 +3414,7 @@ int chance(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL
                jail(prop, playr1,playr2,bank1,bank2,turn);
                break;
         case 9:cout<<"Make general repairs on all your property – For each house pay $25 – For each hotel $100"<<endl;
+                hsrep2(prop,rent, playr1,playr2,bank1,bank2,turn);
                break;
         case 10:cout<<"Pay poor tax of $15"<<endl;
                 bank2-=15;
@@ -3062,6 +3503,7 @@ int comChest(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
                 bank1-=25;
                 break;
         case 12:cout<<"You are assessed for street repairs. $40 per house. $115 per Hotel"<<endl;
+                hsrep(prop,rent, playr1,playr2,bank1,bank2,turn);
                 break;
         case 13:cout<<"You have won 2nd place in a beauty contest. Collect $10"<<endl;
                 bank1+=10;
@@ -3122,6 +3564,7 @@ int comChest(string prop [],int rent [][COL],char playr1[][COL], char playr2[][C
                 bank2-=25;
                 break;
         case 12:cout<<"You are assessed for street repairs. $40 per house. $115 per Hotel"<<endl;
+                 hsrep(prop,rent, playr1,playr2,bank1,bank2,turn);
                 break;
         case 13:cout<<"You have won 2nd place in a beauty contest. Collect $10"<<endl;
                 bank2+=10;
@@ -3151,6 +3594,15 @@ void rr1(string prop [],int rent[][COL], char playr1[][COL], char playr2[][COL],
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3211,6 +3663,15 @@ void rr1(string prop [],int rent[][COL], char playr1[][COL], char playr2[][COL],
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -3276,6 +3737,15 @@ void rr2(string prop [], int rent [][COL], char playr1[][COL], char playr2[][COL
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3336,6 +3806,15 @@ void rr2(string prop [], int rent [][COL], char playr1[][COL], char playr2[][COL
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -3403,6 +3882,15 @@ void rr3(string prop [],int rent[][COL], char playr1[][COL], char playr2[][COL],
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3463,6 +3951,15 @@ void rr3(string prop [],int rent[][COL], char playr1[][COL], char playr2[][COL],
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -3530,6 +4027,15 @@ void rr4(string prop [], int rent[][COL],char playr1[][COL], char playr2[][COL],
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3590,6 +4096,15 @@ void rr4(string prop [], int rent[][COL],char playr1[][COL], char playr2[][COL],
         cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
         cin>>choice;
+         //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<". Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
         if(choice=='y'||choice=='Y')
         {  buy=true;
             bank2-=rate;
@@ -3654,6 +4169,7 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     char choice;
     static int count1=0;
     static int count2=0;
+    int test=0;
     
     //Player ones turn
     if(turn==false)
@@ -3663,35 +4179,73 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
     cout<<"Press y if you would like to pay $50"<<endl;
     cin>>choice;
+     //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
+            cout<<"Press y if you would like to pay $50"<<endl;
+            cin>>choice;
+    
+        }
     count1++;
+    //executes if users choice is y
     if(choice=='y'||choice=='Y')
     {bank1-=50;
     playr1[10][0]='?';
     count1=0;}
-    if(count1>3)
+    //Executes if three turns have passed
+    else if(count1>3)
     {bank1-=50;
      playr1[10][0]='?';
     count1=0;}
+    else
+    {test=rollDie(prop, playr1, bank1,bank2, turn); 
+       if(test==1)
+       {playr1[10][0]='?';
+       cout<<"Player 1 rolled doubles and is out of jail. "<<endl;}
+       else
+           cout<<"Player 1 you did not roll doubles"<<endl;
+    }    
     }
     else
         cout<<"You are just visiting jail"<<endl;
     }
-       if(turn==true)
+if(turn==true)
     {
     if(playr2[10][0]=='j')
     {
     cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
     cout<<"Press y if you would like to pay $50"<<endl;
     cin>>choice;
+    //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"You are in Jail. You may opt to pay $50 or attempt to roll doubles in three turns"<<endl;
+            cout<<"Press y if you would like to pay $50"<<endl;
+            cin>>choice;
+            
+        }
     count2++;
+    //executes if users choice is y
     if(choice=='y'||choice=='Y')
     {bank2-=50;
     playr2[10][0]='?';
     count2=0;}
+    //Executes if three turns have passed
     if(count2>3)
     {bank2-=50;
      playr2[10][0]='?';
     count2=0;}
+    else
+    {test=rollDie(prop, playr1, bank1,bank2, turn ); 
+       if(test==1)
+       { playr2[10][0]='?';
+       cout<<"Player 2 rolled doubles and is out of jail. "<<endl;}
+       else
+           cout<<"Player 2 you did not roll doubles"<<endl;
+    }
     }
     else
         cout<<"You are just visiting jail"<<endl;
@@ -3784,6 +4338,15 @@ void watWork(string prop [], char playr1[][COL], char playr2[][COL], int &bank1,
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+        //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3813,6 +4376,15 @@ void watWork(string prop [], char playr1[][COL], char playr2[][COL], int &bank1,
     {  cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+          //Validates entry
+     while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank2-=rate;
@@ -3848,6 +4420,15 @@ void elecCom(string prop [], char playr1[][COL], char playr2[][COL], int &bank1,
     {  cout<<"Player one this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+          //Validates entry
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player one this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank1-=rate;
@@ -3876,6 +4457,15 @@ void elecCom(string prop [], char playr1[][COL], char playr2[][COL], int &bank1,
     {  cout<<"Player two this property is not purchased yet. Would you like"<<endl;
         cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
         cin>>choice;
+          //Validates entry
+       while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Player two this property is not purchased yet. Would you like"<<endl;
+            cout<<"to purchase this property for $"<<rate<<" Press Y for Yes and No for no."<<endl;
+            cin>>choice;
+            
+        }
          if(choice=='y'||choice=='Y')
         {   buy=true;
             bank2-=rate;
@@ -3910,13 +4500,21 @@ int menu(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL],
     char house;
     cout<<"Would you like to purchase houses. Press y for yes and n for no"<<endl;
     cin>>choice;
+      //Validates entry
+        while(choice!='y'||choice!='Y'||choice!='n'||choice!='N')
+        {
+            cout<<"ERROR: Invalid entry"<<endl;
+            cout<<"Would you like to purchase houses. Press y for yes and n for no"<<endl;
+            cin>>choice;
+            
+        }
     if(turn==false)
     {
     if(choice=='y'||choice=='Y')
     {
         if(playr1[1][0]=='b'&&playr1[3][0]=='b')
-        { cout<<"You own "<<prop[1][0]<<" and "<<prop[3][0]<<endl;
-         cout<<"Press m to place a house on "<<prop[1][0]<<" and b for "<<prop[3][0];
+        { cout<<"You own "<<prop[1]<<" and "<<prop[3]<<endl;
+         cout<<"Press m to place a house on "<<prop[1]<<" and b for "<<prop[3];
          cin>>house;
          if(house=='m'||house=='M')
          { if(playr1[1][1]!='b')
@@ -3948,8 +4546,8 @@ int menu(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL],
          }
         }
 if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
-        { cout<<"You own "<<prop[6][0]<<" and "<<prop[8][0]<<" and "<<prop[9][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[6][0]<<" and v for "<<prop[8][0]<<" and c for "<<prop[9][0];
+        { cout<<"You own "<<prop[6]<<" and "<<prop[8]<<" and "<<prop[9][0]<<endl;
+         cout<<"Press o to place a house on "<<prop[6]<<" and v for "<<prop[8]<<" and c for "<<prop[9];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[6][1]!='b')
@@ -3996,8 +4594,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
 }
         if(playr1[11][0]=='b'&&playr1[13][0]=='b'&&playr1[14][0]=='b')
-        { cout<<"You own "<<prop[11][0]<<" and "<<prop[13][0]<<" and "<<prop[14][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[11][0]<<" and v for "<<prop[13][0]<<" and c for "<<prop[14][0];
+        { cout<<"You own "<<prop[11]<<" and "<<prop[13]<<" and "<<prop[14]<<endl;
+         cout<<"Press o to place a house on "<<prop[11]<<" and v for "<<prop[13]<<" and c for "<<prop[14];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[11][1]!='b')
@@ -4044,8 +4642,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
         }
         if(playr1[16][0]=='b'&&playr1[18][0]=='b'&&playr1[19][0]=='b')
-        { cout<<"You own "<<prop[16][0]<<" and "<<prop[18][0]<<" and "<<prop[19][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[16][0]<<" and v for "<<prop[18][0]<<" and c for "<<prop[19][0];
+        { cout<<"You own "<<prop[16]<<" and "<<prop[18]<<" and "<<prop[19]<<endl;
+         cout<<"Press o to place a house on "<<prop[16]<<" and v for "<<prop[18]<<" and c for "<<prop[19];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[16][1]!='b')
@@ -4092,8 +4690,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
 }
         if(playr1[21][0]=='b'&&playr1[23][0]=='b'&&playr1[24][0]=='b')
-        { cout<<"You own "<<prop[21][0]<<" and "<<prop[23][0]<<" and "<<prop[24][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[21][0]<<" and v for "<<prop[23][0]<<" and c for "<<prop[24][0];
+        { cout<<"You own "<<prop[21]<<" and "<<prop[23]<<" and "<<prop[24]<<endl;
+         cout<<"Press o to place a house on "<<prop[21]<<" and v for "<<prop[23]<<" and c for "<<prop[24];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[21][1]!='b')
@@ -4140,8 +4738,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
 }
         if(playr1[26][0]=='b'&&playr1[27][0]=='b'&&playr1[29][0]=='b')
-        { cout<<"You own "<<prop[26][0]<<" and "<<prop[27][0]<<" and "<<prop[29][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[6][0]<<" and v for "<<prop[8][0]<<" and c for "<<prop[9][0];
+        { cout<<"You own "<<prop[26]<<" and "<<prop[27]<<" and "<<prop[29]<<endl;
+         cout<<"Press o to place a house on "<<prop[26]<<" and v for "<<prop[27]<<" and c for "<<prop[29];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[26][1]!='b')
@@ -4188,8 +4786,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
 }
         if(playr1[31][0]=='b'&&playr1[32][0]=='b'&&playr1[34][0]=='b')
-        { cout<<"You own "<<prop[31][0]<<" and "<<prop[32][0]<<" and "<<prop[34][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[31][0]<<" and v for "<<prop[32][0]<<" and c for "<<prop[34][0];
+        { cout<<"You own "<<prop[31]<<" and "<<prop[32]<<" and "<<prop[34]<<endl;
+         cout<<"Press o to place a house on "<<prop[31]<<" and v for "<<prop[32]<<" and c for "<<prop[34];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[31][1]!='b')
@@ -4236,8 +4834,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
 
 }
         if(playr1[37][0]=='b'&&playr1[39][0]=='b')
-        { cout<<"You own "<<prop[37][0]<<" and "<<prop[39][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[37][0]<<" and v for "<<prop[39][0]<<endl;
+        { cout<<"You own "<<prop[37]<<" and "<<prop[39]<<endl;
+         cout<<"Press o to place a house on "<<prop[37]<<" and v for "<<prop[39]<<endl;
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr1[37][1]!='b')
@@ -4275,8 +4873,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
     if(choice=='y'||choice=='Y')
     {
         if(playr2[1][0]=='b'&&playr2[3][0]=='b')
-        { cout<<"You own "<<prop[1][0]<<" and "<<prop[3][0]<<endl;
-         cout<<"Press m to place a house on "<<prop[1][0]<<" and b for "<<prop[3][0];
+        { cout<<"You own "<<prop[1]<<" and "<<prop[3]<<endl;
+         cout<<"Press m to place a house on "<<prop[1]<<" and b for "<<prop[3];
          cin>>house;
          if(house=='m'||house=='M')
          { if(playr2[1][1]!='b')
@@ -4308,8 +4906,8 @@ if(playr1[6][0]=='b'&&playr1[8][0]=='b'&&playr1[9][0]=='b')
          }
         }
 if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
-        { cout<<"You own "<<prop[6][0]<<" and "<<prop[8][0]<<" and "<<prop[9][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[6][0]<<" and v for "<<prop[8][0]<<" and c for "<<prop[9][0];
+        { cout<<"You own "<<prop[6]<<" and "<<prop[8]<<" and "<<prop[9]<<endl;
+         cout<<"Press o to place a house on "<<prop[6]<<" and v for "<<prop[8]<<" and c for "<<prop[9];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[6][1]!='b')
@@ -4356,8 +4954,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
 }
         if(playr2[11][0]=='b'&&playr2[13][0]=='b'&&playr2[14][0]=='b')
-        { cout<<"You own "<<prop[11][0]<<" and "<<prop[13][0]<<" and "<<prop[14][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[11][0]<<" and v for "<<prop[13][0]<<" and c for "<<prop[14][0];
+        { cout<<"You own "<<prop[11]<<" and "<<prop[13]<<" and "<<prop[14]<<endl;
+         cout<<"Press o to place a house on "<<prop[11]<<" and v for "<<prop[13]<<" and c for "<<prop[14];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[11][1]!='b')
@@ -4404,8 +5002,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
         }
         if(playr2[16][0]=='b'&&playr2[18][0]=='b'&&playr2[19][0]=='b')
-        { cout<<"You own "<<prop[16][0]<<" and "<<prop[18][0]<<" and "<<prop[19][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[16][0]<<" and v for "<<prop[18][0]<<" and c for "<<prop[19][0];
+        { cout<<"You own "<<prop[16]<<" and "<<prop[18]<<" and "<<prop[19]<<endl;
+         cout<<"Press o to place a house on "<<prop[16]<<" and v for "<<prop[18]<<" and c for "<<prop[19];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[16][1]!='b')
@@ -4452,8 +5050,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
 }
         if(playr2[21][0]=='b'&&playr2[23][0]=='b'&&playr2[24][0]=='b')
-        { cout<<"You own "<<prop[21][0]<<" and "<<prop[23][0]<<" and "<<prop[24][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[21][0]<<" and v for "<<prop[23][0]<<" and c for "<<prop[24][0];
+        { cout<<"You own "<<prop[21]<<" and "<<prop[23]<<" and "<<prop[24]<<endl;
+         cout<<"Press o to place a house on "<<prop[21]<<" and v for "<<prop[23]<<" and c for "<<prop[24];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[21][1]!='b')
@@ -4500,8 +5098,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
 }
         if(playr2[26][0]=='b'&&playr2[27][0]=='b'&&playr2[29][0]=='b')
-        { cout<<"You own "<<prop[26][0]<<" and "<<prop[27][0]<<" and "<<prop[29][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[6][0]<<" and v for "<<prop[8][0]<<" and c for "<<prop[9][0];
+        { cout<<"You own "<<prop[26]<<" and "<<prop[27]<<" and "<<prop[29]<<endl;
+         cout<<"Press o to place a house on "<<prop[26]<<" and v for "<<prop[27]<<" and c for "<<prop[29];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[26][1]!='b')
@@ -4548,8 +5146,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
 }
         if(playr2[31][0]=='b'&&playr2[32][0]=='b'&&playr2[34][0]=='b')
-        { cout<<"You own "<<prop[31][0]<<" and "<<prop[32][0]<<" and "<<prop[34][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[31][0]<<" and v for "<<prop[32][0]<<" and c for "<<prop[34][0];
+        { cout<<"You own "<<prop[31]<<" and "<<prop[32]<<" and "<<prop[34]<<endl;
+         cout<<"Press o to place a house on "<<prop[31]<<" and v for "<<prop[32]<<" and c for "<<prop[34];
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[31][1]!='b')
@@ -4596,8 +5194,8 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 
 }
         if(playr2[37][0]=='b'&&playr2[39][0]=='b')
-        { cout<<"You own "<<prop[37][0]<<" and "<<prop[39][0]<<endl;
-         cout<<"Press o to place a house on "<<prop[37][0]<<" and v for "<<prop[39][0]<<endl;
+        { cout<<"You own "<<prop[37]<<" and "<<prop[39]<<endl;
+         cout<<"Press o to place a house on "<<prop[37]<<" and v for "<<prop[39]<<endl;
          cin>>house;
          if(house=='o'||house=='O')
          { if(playr2[37][1]!='b')
@@ -4634,20 +5232,25 @@ if(playr2[6][0]=='b'&&playr2[8][0]=='b'&&playr2[9][0]=='b')
 }
 void proView(string prop[],char playr1[][COL], char playr2[][COL], bool turn)
 {
+    //player 1 turn
     if(turn==false)
-        cout<<"Player one you own the following properties:"<<endl;
+   //Prints out the properties that player one has purchased
+    {  cout<<"Player one you own the following properties:"<<endl;
+    //loops to cyc1e through rows
     for(int count=0;count<40;count++)
     {
         if(playr1[count][0]=='b')
             cout<<prop[count]<<endl;
     }
+    }
+    //player 2's turn
       if(turn==true)
-        cout<<"Player Two you own the following properties:"<<endl;
+      {cout<<"Player Two you own the following properties:"<<endl;
     for(int count=0;count<40;count++)
     {
         if(playr2[count][0]=='b')
             cout<<prop[count]<<endl;
-    }
+    }}
 }
 void sell(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
 {
@@ -5813,5 +6416,2162 @@ void sell(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL],
              else
                  cout<<"Player 1 has declined your offer"<<endl;
          }
+    }
+}
+void sellhs(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
+{
+    char choice;
+    char sell;
+    cout<<"Would you like to sell houses that are on your properties."<<endl;
+    cout<<"Press y for yes or n for no"<<endl;
+    cin>>choice;
+     
+    while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
+    {
+         cout<<"ERROR:Invalid Entry"<<endl;
+         cout<<"Would you like to sell houses that are on your properties."<<endl;
+         cout<<"Press y for yes or n for no"<<endl;
+         cin>>choice;
+    }
+    
+    //Players 1 turn  
+    if(turn==false)
+    {   //Conditiionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[1][1]=='b'||playr1[1][2]=='b'||playr1[1][3]=='b'||playr1[1][4]=='b'||playr1[1][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[1]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[1]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[1][5]=='b')
+           {playr1[1][5]='?';
+           bank1+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[1]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[1][4]=='b')
+           {playr1[1][4]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[1][3]=='b')
+           {playr1[1][3]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[1][2]=='b')
+           {playr1[1][2]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[1][1]=='b')
+           {playr1[1][1]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[1]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[3][1]=='b'||playr1[3][2]=='b'||playr1[3][3]=='b'||playr1[3][4]=='b'||playr1[3][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[3]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[3]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[3][5]=='b')
+           {playr1[3][5]='?';
+           bank1+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[3]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[3][4]=='b')
+           {playr1[3][4]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[3][3]=='b')
+           {playr1[3][3]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[3][2]=='b')
+           {playr1[3][2]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[3][1]=='b')
+           {playr1[3][1]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[3]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[6][1]=='b'||playr1[6][2]=='b'||playr1[6][3]=='b'||playr1[6][4]=='b'||playr1[6][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[6]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[6]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[6][5]=='b')
+           {playr1[6][5]='?';
+           bank1+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[6]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[6][4]=='b')
+           {playr1[6][4]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[6][3]=='b')
+           {playr1[6][3]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[6][2]=='b')
+           {playr1[6][2]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[6][1]=='b')
+           {playr1[6][1]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[6]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[8][1]=='b'||playr1[8][2]=='b'||playr1[8][3]=='b'||playr1[8][4]=='b'||playr1[8][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[8]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[8]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[8][5]=='b')
+           {playr1[8][5]='?';
+           bank1+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[8]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[8][4]=='b')
+           {playr1[8][4]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[8][3]=='b')
+           {playr1[8][3]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[8][2]=='b')
+           {playr1[8][2]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[8][1]=='b')
+           {playr1[8][1]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[8]<<endl;
+        }
+        }
+         //Conditiionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[9][1]=='b'||playr1[9][2]=='b'||playr1[9][3]=='b'||playr1[9][4]=='b'||playr1[9][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[9]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[9]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[9][5]=='b')
+           {playr1[9][5]='?';
+           bank1+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[9]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[9][4]=='b')
+           {playr1[9][4]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[9][3]=='b')
+           {playr1[9][3]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[9][2]=='b')
+           {playr1[9][2]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[9][1]=='b')
+           {playr1[9][1]='?';
+           bank1+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[9]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[11][1]=='b'||playr1[11][2]=='b'||playr1[11][3]=='b'||playr1[11][4]=='b'||playr1[11][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[11]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[11]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[11][5]=='b')
+           {playr1[11][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[11]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[11][4]=='b')
+           {playr1[11][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[11][3]=='b')
+           {playr1[11][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[11][2]=='b')
+           {playr1[11][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[11][1]=='b')
+           {playr1[11][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[11]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[13][1]=='b'||playr1[13][2]=='b'||playr1[13][3]=='b'||playr1[13][4]=='b'||playr1[13][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[13]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[13]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[13][5]=='b')
+           {playr1[13][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[13]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[13][4]=='b')
+           {playr1[13][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[13][3]=='b')
+           {playr1[13][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[13][2]=='b')
+           {playr1[13][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[13][1]=='b')
+           {playr1[13][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[13]<<endl;
+        }
+        }
+             //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[14][1]=='b'||playr1[14][2]=='b'||playr1[14][3]=='b'||playr1[14][4]=='b'||playr1[14][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[14]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[14]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[14][5]=='b')
+           {playr1[14][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[14]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[14][4]=='b')
+           {playr1[14][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[14][3]=='b')
+           {playr1[14][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[14][2]=='b')
+           {playr1[14][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[14][1]=='b')
+           {playr1[14][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[11]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[16][1]=='b'||playr1[16][2]=='b'||playr1[16][3]=='b'||playr1[16][4]=='b'||playr1[16][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[16]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[16]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[16][5]=='b')
+           {playr1[16][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[16]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[16][4]=='b')
+           {playr1[16][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[16][3]=='b')
+           {playr1[16][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[16][2]=='b')
+           {playr1[16][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[16][1]=='b')
+           {playr1[16][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[16]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[18][1]=='b'||playr1[18][2]=='b'||playr1[18][3]=='b'||playr1[18][4]=='b'||playr1[18][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[18]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[18]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[18][5]=='b')
+           {playr1[18][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[18]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[18][4]=='b')
+           {playr1[18][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[18][3]=='b')
+           {playr1[18][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[18][2]=='b')
+           {playr1[18][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[18][1]=='b')
+           {playr1[18][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[18]<<endl;
+        }
+        }
+       //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[19][1]=='b'||playr1[19][2]=='b'||playr1[19][3]=='b'||playr1[19][4]=='b'||playr1[19][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[19]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[19]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[19][5]=='b')
+           {playr1[19][5]='?';
+           bank1+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[19]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[19][4]=='b')
+           {playr1[19][4]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[19][3]=='b')
+           {playr1[19][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[19][2]=='b')
+           {playr1[19][2]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[19][1]=='b')
+           {playr1[19][1]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[19]<<endl;
+        }
+        }
+       //Conditiionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[21][1]=='b'||playr1[21][2]=='b'||playr1[21][3]=='b'||playr1[21][4]=='b'||playr1[21][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[21]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[21]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[21][5]=='b')
+           {playr1[21][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[21]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[21][4]=='b')
+           {playr1[21][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[21][3]=='b')
+           {playr1[21][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[21][2]=='b')
+           {playr1[21][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[21][1]=='b')
+           {playr1[21][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[21]<<endl;
+        }
+        }
+        //Conditiionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[23][1]=='b'||playr1[23][2]=='b'||playr1[23][3]=='b'||playr1[23][4]=='b'||playr1[23][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[23]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[23]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[23][5]=='b')
+           {playr1[23][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[23]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[23][4]=='b')
+           {playr1[23][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[23][3]=='b')
+           {playr1[23][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[23][2]=='b')
+           {playr1[23][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[23][1]=='b')
+           {playr1[23][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[23]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[24][1]=='b'||playr1[24][2]=='b'||playr1[24][3]=='b'||playr1[24][4]=='b'||playr1[24][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[24]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[24]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[24][5]=='b')
+           {playr1[24][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[24]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[24][4]=='b')
+           {playr1[24][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[24][3]=='b')
+           {playr1[24][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[24][2]=='b')
+           {playr1[24][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[24][1]=='b')
+           {playr1[24][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[24]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[26][1]=='b'||playr1[26][2]=='b'||playr1[26][3]=='b'||playr1[26][4]=='b'||playr1[26][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[26]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[26]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[26][5]=='b')
+           {playr1[26][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[26]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[26][4]=='b')
+           {playr1[26][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[26][3]=='b')
+           {playr1[26][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[26][2]=='b')
+           {playr1[26][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[26][1]=='b')
+           {playr1[26][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[26]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[27][1]=='b'||playr1[27][2]=='b'||playr1[27][3]=='b'||playr1[27][4]=='b'||playr1[27][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[27]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[27]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[27][5]=='b')
+           {playr1[27][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[27]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[27][4]=='b')
+           {playr1[27][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[27][3]=='b')
+           {playr1[27][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[27][2]=='b')
+           {playr1[27][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[27][1]=='b')
+           {playr1[27][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[27]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[29][1]=='b'||playr1[29][2]=='b'||playr1[29][3]=='b'||playr1[29][4]=='b'||playr1[29][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[29]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[29]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[29][5]=='b')
+           {playr1[29][5]='?';
+           bank1+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[29]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[29][4]=='b')
+           {playr1[29][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[29][3]=='b')
+           {playr1[29][3]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[29][2]=='b')
+           {playr1[29][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[29][1]=='b')
+           {playr1[91][1]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[29]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[31][1]=='b'||playr1[31][2]=='b'||playr1[31][3]=='b'||playr1[31][4]=='b'||playr1[31][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[31]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[31]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[31][5]=='b')
+           {playr1[31][5]='?';
+           bank1+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[31]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[31][4]=='b')
+           {playr1[31][4]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[31][3]=='b')
+           {playr1[31][3]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[31][2]=='b')
+           {playr1[31][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[31][1]=='b')
+           {playr1[31][1]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[31]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[32][1]=='b'||playr1[32][2]=='b'||playr1[32][3]=='b'||playr1[32][4]=='b'||playr1[32][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[32]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[32]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[32][5]=='b')
+           {playr1[32][5]='?';
+           bank1+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[32]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[32][4]=='b')
+           {playr1[32][4]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[32][3]=='b')
+           {playr1[32][3]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[32][2]=='b')
+           {playr1[32][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[32][1]=='b')
+           {playr1[32][1]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[32]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[34][1]=='b'||playr1[34][2]=='b'||playr1[34][3]=='b'||playr1[34][4]=='b'||playr1[34][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[34]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[34]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[34][5]=='b')
+           {playr1[34][5]='?';
+           bank1+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[34]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[34][4]=='b')
+           {playr1[34][4]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[34][3]=='b')
+           {playr1[34][3]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[34][2]=='b')
+           {playr1[34][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[34][1]=='b')
+           {playr1[34][1]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[34]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[37][1]=='b'||playr1[37][2]=='b'||playr1[37][3]=='b'||playr1[37][4]=='b'||playr1[37][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[37]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[37]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[37][5]=='b')
+           {playr1[37][5]='?';
+           bank1+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[37]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[37][4]=='b')
+           {playr1[37][4]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[37][3]=='b')
+           {playr1[37][3]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[37][2]=='b')
+           {playr1[37][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[37][1]=='b')
+           {playr1[37][1]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[37]<<endl;
+        }
+        }
+        //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr1[39][1]=='b'||playr1[39][2]=='b'||playr1[39][3]=='b'||playr1[39][4]=='b'||playr1[39][5]=='b')
+        {cout<<"Player 1 you have houses or an hotel on "<<prop[39]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 1 you have houses or an hotel on "<<prop[39]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr1[39][5]=='b')
+           {playr1[39][5]='?';
+           bank1+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[39]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr1[39][4]=='b')
+           {playr1[39][4]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr1[39][3]=='b')
+           {playr1[39][3]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[39][2]=='b')
+           {playr1[39][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr1[39][1]=='b')
+           {playr1[39][1]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[39]<<endl;
+        }
+        }
+    }
+     //Players 2 turn  
+    if(turn==true)
+    {   //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[1][1]=='b'||playr2[1][2]=='b'||playr2[1][3]=='b'||playr2[1][4]=='b'||playr2[1][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[1]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[1]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[1][5]=='b')
+           {playr2[1][5]='?';
+           bank2+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[1]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[1][4]=='b')
+           {playr2[1][4]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[1][3]=='b')
+           {playr2[1][3]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[1][2]=='b')
+           {playr2[1][2]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[1][1]=='b')
+           {playr2[1][1]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[1]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[1]<<endl;
+        }
+        }
+         //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[3][1]=='b'||playr2[3][2]=='b'||playr2[3][3]=='b'||playr2[3][4]=='b'||playr2[3][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[3]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[3]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[3][5]=='b')
+           {playr2[3][5]='?';
+           bank2+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[3]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[3][4]=='b')
+           {playr2[3][4]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[3][3]=='b')
+           {playr2[3][3]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[3][2]=='b')
+           {playr2[3][2]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[3][1]=='b')
+           {playr2[3][1]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[3]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[3]<<endl;
+        }
+        }
+         //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[6][1]=='b'||playr2[6][2]=='b'||playr2[6][3]=='b'||playr2[6][4]=='b'||playr2[6][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[6]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[6]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[6][5]=='b')
+           {playr2[6][5]='?';
+           bank2+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[6]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[6][4]=='b')
+           {playr2[6][4]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[6][3]=='b')
+           {playr2[6][3]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[6][2]=='b')
+           {playr2[6][2]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[6][1]=='b')
+           {playr2[6][1]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[6]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[6]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[8][1]=='b'||playr2[8][2]=='b'||playr2[8][3]=='b'||playr2[8][4]=='b'||playr2[8][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[8]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[8]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[8][5]=='b')
+           {playr2[8][5]='?';
+           bank2+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[8]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[8][4]=='b')
+           {playr2[8][4]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[8][3]=='b')
+           {playr2[8][3]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[8][2]=='b')
+           {playr2[8][2]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[8][1]=='b')
+           {playr2[8][1]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[8]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[8]<<endl;
+        }
+        }
+         //Conditiionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[9][1]=='b'||playr2[9][2]=='b'||playr2[9][3]=='b'||playr2[9][4]=='b'||playr2[9][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[9]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[9]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[9][5]=='b')
+           {playr2[9][5]='?';
+           bank2+=50;
+           cout<<"You sold a Hotel for $50 on "<<prop[9]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[9][4]=='b')
+           {playr2[9][4]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[9][3]=='b')
+           {playr2[9][3]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[9][2]=='b')
+           {playr2[9][2]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[9][1]=='b')
+           {playr2[9][1]='?';
+           bank2+=50;
+           cout<<"You sold a House for $50 on "<<prop[9]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[9]<<endl;
+        }
+        }
+         //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[11][1]=='b'||playr2[11][2]=='b'||playr2[11][3]=='b'||playr2[11][4]=='b'||playr2[11][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[11]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[11]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[11][5]=='b')
+           {playr2[11][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[11]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[11][4]=='b')
+           {playr2[11][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[11][3]=='b')
+           {playr2[11][3]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[11][2]=='b')
+           {playr2[11][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[11][1]=='b')
+           {playr2[11][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[11]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[11]<<endl;
+        }
+        }
+         //Conditionally executes if player 1 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[13][1]=='b'||playr2[13][2]=='b'||playr2[13][3]=='b'||playr2[13][4]=='b'||playr2[13][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[13]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[13]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[13][5]=='b')
+           {playr2[13][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[13]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[13][4]=='b')
+           {playr2[13][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[13][3]=='b')
+           {playr2[13][3]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[13][2]=='b')
+           {playr2[13][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[13][1]=='b')
+           {playr2[13][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[13]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[13]<<endl;
+        }
+        }
+             //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[14][1]=='b'||playr2[14][2]=='b'||playr2[14][3]=='b'||playr2[14][4]=='b'||playr2[14][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[14]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[14]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[14][5]=='b')
+           {playr2[14][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[14]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[14][4]=='b')
+           {playr2[14][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[14][3]=='b')
+           {playr2[14][3]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[14][2]=='b')
+           {playr2[14][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[14][1]=='b')
+           {playr2[14][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[14]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[11]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[16][1]=='b'||playr2[16][2]=='b'||playr2[16][3]=='b'||playr2[16][4]=='b'||playr2[16][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[16]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[16]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[16][5]=='b')
+           {playr2[16][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[16]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[16][4]=='b')
+           {playr2[16][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[16][3]=='b')
+           {playr2[16][3]='?';
+           bank1+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[16][2]=='b')
+           {playr2[16][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[16][1]=='b')
+           {playr2[16][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[16]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[16]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[18][1]=='b'||playr2[18][2]=='b'||playr2[18][3]=='b'||playr2[18][4]=='b'||playr2[18][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[18]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[18]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[18][5]=='b')
+           {playr2[18][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[18]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[18][4]=='b')
+           {playr2[18][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[18][3]=='b')
+           {playr2[18][3]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[18][2]=='b')
+           {playr2[18][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[18][1]=='b')
+           {playr2[18][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[18]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[18]<<endl;
+        }
+        }
+       //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[19][1]=='b'||playr2[19][2]=='b'||playr2[19][3]=='b'||playr2[19][4]=='b'||playr2[19][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[19]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[19]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[19][5]=='b')
+           {playr2[19][5]='?';
+           bank2+=100;
+           cout<<"You sold a Hotel for $100 on "<<prop[19]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[19][4]=='b')
+           {playr2[19][4]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[19][3]=='b')
+           {playr2[19][3]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[19][2]=='b')
+           {playr2[19][2]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[19][1]=='b')
+           {playr2[19][1]='?';
+           bank2+=100;
+           cout<<"You sold a House for $100 on "<<prop[19]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[19]<<endl;
+        }
+        }
+       //Conditiionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[21][1]=='b'||playr2[21][2]=='b'||playr2[21][3]=='b'||playr2[21][4]=='b'||playr2[21][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[21]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[21]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[21][5]=='b')
+           {playr2[21][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[21]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[21][4]=='b')
+           {playr2[21][4]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[21][3]=='b')
+           {playr2[21][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[21][2]=='b')
+           {playr2[21][2]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[21][1]=='b')
+           {playr2[21][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[21]<<endl;
+        }
+        }
+        //Conditiionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[23][1]=='b'||playr2[23][2]=='b'||playr2[23][3]=='b'||playr2[23][4]=='b'||playr2[23][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[23]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[23]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[23][5]=='b')
+           {playr2[23][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[23]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[23][4]=='b')
+           {playr2[23][4]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[23][3]=='b')
+           {playr2[23][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[23][2]=='b')
+           {playr2[23][2]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[23][1]=='b')
+           {playr2[23][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[23]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[23]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[24][1]=='b'||playr2[24][2]=='b'||playr2[24][3]=='b'||playr2[24][4]=='b'||playr2[24][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[24]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[24]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[24][5]=='b')
+           {playr2[24][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[24]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[24][4]=='b')
+           {playr2[24][4]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[24][3]=='b')
+           {playr2[24][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[24][2]=='b')
+           {playr2[24][2]='?';
+           bank1+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[24][1]=='b')
+           {playr2[24][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[24]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[24]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[26][1]=='b'||playr2[26][2]=='b'||playr2[26][3]=='b'||playr2[26][4]=='b'||playr2[26][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[26]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[26]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[26][5]=='b')
+           {playr2[26][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[26]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[26][4]=='b')
+           {playr2[26][4]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[26][3]=='b')
+           {playr2[26][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[26][2]=='b')
+           {playr2[26][2]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[26][1]=='b')
+           {playr2[26][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[26]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[26]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[27][1]=='b'||playr2[27][2]=='b'||playr2[27][3]=='b'||playr2[27][4]=='b'||playr2[27][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[27]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[27]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[27][5]=='b')
+           {playr2[27][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[27]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[27][4]=='b')
+           {playr2[27][4]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[27][3]=='b')
+           {playr2[27][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[27][2]=='b')
+           {playr2[27][2]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[27][1]=='b')
+           {playr2[27][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[27]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[27]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[29][1]=='b'||playr2[29][2]=='b'||playr2[29][3]=='b'||playr2[29][4]=='b'||playr2[29][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[29]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[29]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[29][5]=='b')
+           {playr2[29][5]='?';
+           bank2+=150;
+           cout<<"You sold a Hotel for $150 on "<<prop[29]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[29][4]=='b')
+           {playr2[29][4]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[29][3]=='b')
+           {playr2[29][3]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[21]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[29][2]=='b')
+           {playr2[29][2]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[29][1]=='b')
+           {playr2[91][1]='?';
+           bank2+=150;
+           cout<<"You sold a House for $150 on "<<prop[29]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[29]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[31][1]=='b'||playr2[31][2]=='b'||playr2[31][3]=='b'||playr2[31][4]=='b'||playr2[31][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[31]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[31]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[31][5]=='b')
+           {playr2[31][5]='?';
+           bank2+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[31]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[31][4]=='b')
+           {playr2[31][4]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[31][3]=='b')
+           {playr2[31][3]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[31][2]=='b')
+           {playr2[31][2]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[31][1]=='b')
+           {playr2[31][1]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[31]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[31]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[32][1]=='b'||playr2[32][2]=='b'||playr2[32][3]=='b'||playr2[32][4]=='b'||playr2[32][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[32]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[32]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[32][5]=='b')
+           {playr2[32][5]='?';
+           bank2+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[32]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[32][4]=='b')
+           {playr2[32][4]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[32][3]=='b')
+           {playr2[32][3]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[32][2]=='b')
+           {playr2[32][2]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[32][1]=='b')
+           {playr2[32][1]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[32]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[32]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[34][1]=='b'||playr2[34][2]=='b'||playr2[34][3]=='b'||playr2[34][4]=='b'||playr2[34][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[34]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[34]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[34][5]=='b')
+           {playr2[34][5]='?';
+           bank2+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[34]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[34][4]=='b')
+           {playr2[34][4]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[34][3]=='b')
+           {playr2[34][3]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr1[34][2]=='b')
+           {playr1[34][2]='?';
+           bank1+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[34][1]=='b')
+           {playr2[34][1]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[34]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[34]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[37][1]=='b'||playr2[37][2]=='b'||playr2[37][3]=='b'||playr2[37][4]=='b'||playr2[37][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[37]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[37]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[37][5]=='b')
+           {playr2[37][5]='?';
+           bank2+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[37]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[37][4]=='b')
+           {playr2[37][4]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[37][3]=='b')
+           {playr2[37][3]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[37][2]=='b')
+           {playr2[37][2]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[37][1]=='b')
+           {playr2[37][1]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[37]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[37]<<endl;
+        }
+        }
+        //Conditionally executes if player 2 has any houses or hotels on a property ands prompts user if they would like to sell them
+        if(playr2[39][1]=='b'||playr2[39][2]=='b'||playr2[39][3]=='b'||playr2[39][4]=='b'||playr2[39][5]=='b')
+        {cout<<"Player 2 you have houses or an hotel on "<<prop[39]<<"Would you like to sell it" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;
+        //Input Validation
+        while(sell!='y'&&sell!='Y'&&sell!='n'&&sell!='N')
+        {cout<<"ERROR: Invalid entry"<<endl;
+        cout<<"Player 2 you have houses or an hotel on "<<prop[39]<<"Would you like to sell it?" <<endl;
+        cout<<"Press y for yes or n for no"<<endl;
+        cin>>sell;}
+        
+        //Executes if player would like to sell a property
+        if(sell=='y'||sell=='Y')
+        {
+           //Checks fifth column in 2d Array for hotel and places money back in the bank
+           if(playr2[39][5]=='b')
+           {playr2[39][5]='?';
+           bank2+=200;
+           cout<<"You sold a Hotel for $200 on "<<prop[39]<<endl;}
+           //Checks fourth column in 2d Array for house and places money back in the bank
+           else if(playr2[39][4]=='b')
+           {playr2[39][4]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks third column in 2d Array for house and places money back in the bank
+           else if(playr2[39][3]=='b')
+           {playr2[39][3]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks second column in 2d Array for house and places money back in the bank
+           else if(playr2[39][2]=='b')
+           {playr2[39][2]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Checks first column column in 2d Array for house and places money back in the bank
+           else if(playr2[39][1]=='b')
+           {playr2[39][1]='?';
+           bank2+=200;
+           cout<<"You sold a House for $200 on "<<prop[39]<<endl;}
+           //Executes if there are no houses )
+           else
+               cout<<"You do not own any house on "<<prop[39]<<endl;
+        }
+        }
+    }
+}
+void hsrep(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn, int houses, int hotels)
+{
+    //Declare variables
+    int count1=0;                              //Accumulates the number of houses that player has
+    int count2=0;                              //Accumulates the number of hotels that player has
+    int charge1;                               //Holds total charge for houses
+    int charge2;                               //Holds total charge for hotels
+    
+    
+    //Player 1's turn
+    if(turn==false)
+    {
+        //Loops through rows that indicate different properties an opponent owns with house
+        for(int row=0;row<40;row++)
+        {
+            //Loops through the number of houses on that property
+            for(int col=1;col<=4;col++)
+            {
+            //Conditionally executes if a b is found within the given range of the array
+            if(playr1[row][col]=='b')
+            {
+                count1++;
+            }
+            }
+        }
+        //Calculates the charge for the repairs for house and Outputs the result and subtracts it from the bank
+        charge1=houses*count1;
+        cout<<"You have "<<count1<<" houses. The street repairs for houses is $"<<charge1<<endl;
+        bank1-=charge1;
+        
+        //Loops through rows
+        for(int row=0;row<40;row++)
+        {
+            //Loops through column five looking for b's that indicate a hotel was purchased and accumulates the number of occurrences
+            if(playr1[row][5]=='b') 
+                count2++;
+        }
+        //Calculates the charge for the repairs for hotels and Outputs the result and subtracts it from the bank
+        charge2=hotels*count2;
+        cout<<"You have "<<count2<<" hotels. The street repairs for hotels is $"<<charge2<<endl;
+        bank1-=charge2;
+    }
+    //Player 2's turn
+    if(turn==true)
+    {
+        //Loops through rows that indicate different properties an opponent owns with house
+        for(int row=0;row<40;row++)
+        {
+            //Loops through the number of houses on that property
+            for(int col=1;col<=4;col++)
+            {
+            //Conditionally executes if a b is found within the given range of the array
+            if(playr2[row][col]=='b')
+            {
+                count1++;
+            }
+            }
+        }
+        //Calculates the charge for the repairs for house and Outputs the result and subtracts it from the bank
+        charge1=houses*count1;
+        cout<<"You have "<<count1<<" houses.The street repairs for houses is $"<<charge1<<endl;;
+        bank2-=charge1;
+        
+        //Loops through rows
+        for(int row=0;row<40;row++)
+        {
+            //Loops through column five looking for b's that indicate a hotel was purchased and accumulates the number of occurrences
+            if(playr2[row][5]=='b') 
+                count2++;
+        }
+        //Calculates the charge for the repairs for hotels and Outputs the result and subtracts it from the bank
+        charge2=hotels*count2;
+        cout<<"You have "<<count2<<" hotels. The street repairs for hotels is $"<<charge2<<endl;;
+        bank2-=charge2;
+    }
+}
+void hsrep2(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL], int &bank1,int &bank2,bool turn)
+{
+    //Declare variables
+    int count1=0;                              //Accumulates the number of houses that player has
+    int count2=0;                              //Accumulates the number of hotels that player has
+    int houses=25;                             //Rate for houses
+    int hotels=100;                            //Rate for hotels
+    int charge1;                               //Holds total charge for houses
+    int charge2;                               //Holds total charge for hotels
+    
+    
+    //Player 1's turn
+    if(turn==false)
+    {
+        //Loops through rows that indicate different properties an opponent owns with house
+        for(int row=0;row<40;row++)
+        {
+            //Loops through the number of houses on that property
+            for(int col=1;col<=4;col++)
+            {
+            //Conditionally executes if a b is found within the given range of the array
+            if(playr1[row][col]=='b')
+            {
+                count1++;
+            }
+            }
+        }
+        //Calculates the charge for the repairs for house and Outputs the result and subtracts it from the bank
+        charge1=houses*count1;
+        cout<<"You have "<<count1<<" houses. The street repairs for houses is $"<<charge1<<endl;
+        bank1-=charge1;
+        
+        //Loops through rows
+        for(int row=0;row<40;row++)
+        {
+            //Loops through column five looking for b's that indicate a hotel was purchased and accumulates the number of occurrences
+            if(playr1[row][5]=='b') 
+                count2++;
+        }
+        //Calculates the charge for the repairs for hotels and Outputs the result and subtracts it from the bank
+        charge2=hotels*count2;
+        cout<<"You have "<<count2<<" hotels. The street repairs for hotels is $"<<charge2<<endl;
+        bank1-=charge2;
+    }
+    //Player 2's turn
+    if(turn==true)
+    {
+        //Loops through rows that indicate different properties an opponent owns with house
+        for(int row=0;row<40;row++)
+        {
+            //Loops through the number of houses on that property
+            for(int col=1;col<=4;col++)
+            {
+            //Conditionally executes if a b is found within the given range of the array
+            if(playr2[row][col]=='b')
+            {
+                count1++;
+            }
+            }
+        }
+        //Calculates the charge for the repairs for house and Outputs the result and subtracts it from the bank
+        charge1=houses*count1;
+        cout<<"You have "<<count1<<" houses.The street repairs for houses is $"<<charge1<<endl;;
+        bank2-=charge1;
+        
+        //Loops through rows
+        for(int row=0;row<40;row++)
+        {
+            //Loops through column five looking for b's that indicate a hotel was purchased and accumulates the number of occurrences
+            if(playr2[row][5]=='b') 
+                count2++;
+        }
+        //Calculates the charge for the repairs for hotels and Outputs the result and subtracts it from the bank
+        charge2=hotels*count2;
+        cout<<"You have "<<count2<<" hotels. The street repairs for hotels is $"<<charge2<<endl;;
+        bank2-=charge2;
     }
 }
