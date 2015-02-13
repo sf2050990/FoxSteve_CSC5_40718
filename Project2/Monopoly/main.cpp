@@ -18,52 +18,53 @@ using namespace std;
 
 //Global Constants
 
-const int COL=7;                                                               //Global constant for columns
+const int COL=7;                                                                            //Global constant for columns
 //Function Prototype
 int rollDie(string [], char [][7],int&,int&, int);
-int rollDie(string [], char [][7],int&,int&, int,int *,int *);                  //Function prototype for rolling die
-void purp1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for Mediterranean Avenue
-void  purp2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Baltic Avenue
-void teal1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Oriental_Ave
-void  teal2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Vermont_Ave
-void  teal3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Conneticut Ave
-void  pink1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for ST Charles Place
-void  pink2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for States Ave
-void  pink3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Virginia Ave
-void  orange1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for St James Place
-void  orange2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for Tennesse Ave
-void  orange3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for New York Ave
-void red1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function prototype for Kentucky Ave
-void red2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function prototype for Indiana Ave
-void  red3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function prototype for Illinois Ave
-void yellow1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for Atlantic Ave
-void yellow2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for Ventnor Ave
-void  yellow3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype for Marvin Gardens Ave
-void  green1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for Pacific Ave 
-void  green2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for North Carolina Ave
-void green3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for Pennsylvania Ave
-void  blue1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Park Place Ave
-void  blue2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);       //Function prototype for Boardwalk Ave
-void  start();                                                                    //Function prototype Start
-int chance(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int); //Function prototype for Chance
-int comChest(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int);            //Function prototype for Community Chest
-int incTax(string[],int&,int&,bool);                                            //Function prototype for Income Tax
-int luxTax(string[],  int&,int&,bool);                                          //Function prototype for Luxury tax
-int jail(string[], char[][7],char[][7], int&,int&,int);                         //Function prototype for Jail
-int goToJail(string[], char[][7],char[][7], int&, int&, int&,int&,bool);                     //Function prototype for Go to Jail
-void  rr1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Reading Railroad
-void  rr2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Pennsylvania Railroad
-void  rr3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for B&O Railroad
-void  rr4(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);         //Function prototype for Shortline Railroad
-void  elecCom(string[], char[][COL],char[][COL], int&,int&,bool,int);             //Function prototype for Electric Company
-void  watWork(string[], char[][COL], char[][COL],int&,int&,bool,int);             //Function prototype for Water works
-int frePark(string[]);                                                          //Function prototype for Free parking
-int menu(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);        //Function Prototype for house menu.
-void proView(string[],char[][COL],char [][COL],bool);                                  
-void sell(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);      //Function prototype for selling properties  
-void sellhs(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);    //Function prototype to sell houses
-void hsrep(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int=40,int=115);     //Function prototype to calculate house repairs for community chest
-void hsrep2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);     //Function prototype to calculate house repairs for chance
+int rollDie(string [], char [][7],int&,int&, int,int *,int *);                              //Function prototype for rolling die
+void purp1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                  //Function prototype for Mediterranean Avenue
+void  purp2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Baltic Avenue
+void teal1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                  //Function prototype for Oriental_Ave
+void  teal2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Vermont_Ave
+void  teal3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Connecticut Ave
+void  pink1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for ST Charles Place
+void  pink2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for States Ave
+void  pink3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Virginia Ave
+void  orange1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);               //Function prototype for St James Place
+void  orange2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);               //Function prototype for Tennessee Ave
+void  orange3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);               //Function prototype for New York Ave
+void red1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for Kentucky Ave
+void red2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for Indiana Ave
+void  red3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                  //Function prototype for Illinois Ave
+void yellow1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                //Function prototype for Atlantic Ave
+void yellow2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                //Function prototype for Ventnor Ave
+void  yellow3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);               //Function prototype for Marvin Gardens Ave
+void  green1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                //Function prototype for Pacific Ave 
+void  green2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                //Function prototype for North Carolina Ave
+void green3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Pennsylvania Ave
+void  blue1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Park Place Ave
+void  blue2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype for Boardwalk Ave
+void  start();                                                                              //Function prototype Start
+int chance(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int);  //Function prototype for Chance
+int comChest(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int &,int &,int);//Function prototype for Community Chest
+int incTax(string[],int&,int&,bool);                                                        //Function prototype for Income Tax
+int luxTax(string[],  int&,int&,bool);                                                      //Function prototype for Luxury tax
+int jail(string[], char[][7],char[][7], int&,int&,int);                                     //Function prototype for Jail
+int goToJail(string[], char[][7],char[][7], int&, int&, int&,int&,bool);                    //Function prototype for Go to Jail
+void  rr1(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for Reading Railroad
+void  rr2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for Pennsylvania Railroad
+void  rr3(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for B&O Railroad
+void  rr4(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for Short line Railroad
+void  elecCom(string[], char[][COL],char[][COL], int&,int&,bool,int);                       //Function prototype for Electric Company
+void  watWork(string[], char[][COL], char[][COL],int&,int&,bool,int);                       //Function prototype for Water works
+int frePark(string[]);                                                                      //Function prototype for Free parking
+int menu(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                    //Function Prototype for house menu.
+void proView(string[],char[][COL],char [][COL],bool);                                       //Function prototype for viewing properties own
+void sell(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                   //Function prototype for selling properties  
+void sellhs(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype to sell houses
+void hsrep(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool,int=40,int=115);   //Function prototype to calculate house repairs for community chest
+void hsrep2(string[], int[][COL],char[][COL],char[][COL], int&,int&, bool);                 //Function prototype to calculate house repairs for chance
+void srtArry(string [ ]);                                                                    //Function prototype for sorting prop[] using bubble sort
 //Execution Begins Here!
 
 int main()
@@ -71,8 +72,8 @@ int main()
     //Declare variables
     const int row=40;                           //Defines row
     string prop[row];                           //Array that holds property names
-   char playr1[row][COL];                       //2D Array for Player 1 property purchases
-   char playr2[row][COL];                       //2D Array for Player 2 property purchases
+    char playr1[row][COL];                       //2D Array for Player 1 property purchases
+    char playr2[row][COL];                       //2D Array for Player 2 property purchases
     int bank1=2000;                             //Holds bank account balance for player 1
     int bank2=2000;                             //Holds bank account balance for player 2
     int player1=0;                              //Holds dice roll total for player1
@@ -81,8 +82,10 @@ int main()
     int count=0;                                //Counter
     char ch;
     char choice;                                //Holds value if a player would like to make another menu selection 
-    int menuCh;                                 //Holds character for players menu choice
+    char menuCh;                                 //Holds character for players menu choice
     int times=0;                                  //Records the number of rolls in a given turn
+    
+   
   
 
     
@@ -151,35 +154,85 @@ int main()
           cout<<"Bank 1 "<<bank1<<endl;
           cout<<"Please make a menu selection:"<<endl;
           cout<<"1: Roll Dice"<<endl;
-          cout<<"2: View properties"<<endl;
-          cout<<"3:Sell Property"<<endl;
-          cout<<"4: Buy houses and Hotels"<<endl;
+          cout<<"2: View properties owned"<<endl;
+          cout<<"3: Sell Property"<<endl;
+          cout<<"4: Sell House and Hotels"<<endl;
+          cout<<"5: Buy houses and Hotels"<<endl;
+          cout<<"6: List of properties in the game"<<endl;
           cin>>menuCh;
           
           //Switch statement to execute users choice
           switch(menuCh)
           {
-              case 1:if(times==0)
+              case '1':if(times==0)
                      //Function call to get dice roll and store it in player 1 dice total
-                     player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
-              else if(times>0)
-              {cout<<"You can't roll twice in a turn"<<endl;
-                 times++;}
-              else if(playr1[10][0]=='j')
-                  cout<<"You are in jail"<<endl;
-              else
-                  cout<<"Something went wrong"<<endl;
+                     { player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+                      times++;}
+                       
+                          else if(playr1[10][0]=='j')
+                               cout<<"You are in jail"<<endl;
+                           else
+                              cout<<"You can't roll twice in a turn"<<endl;
                      break;
                      //Function call to view properties
-              case 2:proView(prop,playr1,playr2,turn);
+              case '2':proView(prop,playr1,playr2,turn);
                      break;
                      //Function call to sell properties;
-              case 3:sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+              case '3':sell(prop,rent, playr1,playr2,bank1,bank2,turn);
                      break;
-                     //Function call to buy shouses and hotels  
-              case 4: menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                      //Function call to sell houses and hotels
+              case '4':sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+                       break;
+              case '5': menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              case '6':srtArry(prop);
                      break;
               default:cout<<"You have made an invalid menu choice"<<endl;
+          }
+          while(menuCh!='1'&&menuCh!='2'&&menuCh!='3'&&menuCh!='4'&&menuCh!='5'&&menuCh!='6')
+          {
+              cout<<"ERROR: Invalid Menu Choice"<<endl;
+              //Outputs player 1's total dice roll
+          cout<<"Player 1 "<<player1<<endl; 
+          //Outputs player 1's bank total
+          cout<<"Bank 1 "<<bank1<<endl;
+          cout<<"Please make a menu selection:"<<endl;
+          cout<<"1: Roll Dice"<<endl;
+          cout<<"2: View properties owned"<<endl;
+          cout<<"3: Sell Property"<<endl;
+          cout<<"4: Sell House and Hotels"<<endl;
+          cout<<"5: Buy houses and Hotels"<<endl;
+          cout<<"6: List of properties in the game"<<endl;
+          cin>>menuCh;
+          
+          //Switch statement to execute users choice
+          switch(menuCh)
+          {
+              case '1':if(times==0)
+                     //Function call to get dice roll and store it in player 1 dice total
+                     {     player1+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+                           times++;}
+                          else if(playr1[10][0]=='j')
+                          cout<<"You are in jail"<<endl;
+                          else
+                         cout<<"You can't roll twice in a turn"<<endl;
+                        break;
+                     //Function call to view properties
+              case '2':proView(prop,playr1,playr2,turn);
+                     break;
+                     //Function call to sell properties;
+              case '3':sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+                     //Function call to sell houses and hotels
+              case '4':sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+                      break;
+                     //Function call to buy shouses and hotels  
+              case '5': menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              case '6':srtArry(prop);
+                     break;
+              default:cout<<"You have made an invalid menu choice"<<endl;
+          }
           }
           cout<<" Would you like to make another menu selection"<<endl;
           cin>>choice;
@@ -191,15 +244,16 @@ int main()
           //Outputs the player has passed go and adds 200
           if(player1>39)
         { player1-=39;
-          cout<<"Player 1 Passed Go!!Collect $200!!"<<endl;
+          cout<<"Player 1 Passed Go!!Collect $200!!"<<endl; 
           cout<<"Player 1  "<<player1<<endl;
-         bank1+=200;}
+         bank1+=200;
+          }
         if(playr1[10][0]=='j')
         {cout<<"You are in jail"<<endl;
         player1=10;}
           
         
-        
+          
         //Conditionally executes depending of player 1' total dice roll and the makes 
         //a function call to corresponding property
            if (player1==0)
@@ -284,7 +338,7 @@ int main()
                blue2(prop,rent, playr1,playr2,bank1,bank2,turn);
            else
              cout<<"ERROR. Somthing Went Wrong!!!"<<endl;
-        
+          
         }while(dbls==1);
            //Bool switch to true to indicate its player 2's turn
            turn=true;
@@ -310,30 +364,84 @@ int main()
           cout<<"Bank 2 "<<bank2<<endl;
           cout<<"Please make a menu selection:"<<endl;
           cout<<"1: Roll Dice"<<endl;
-          cout<<"2: View properties"<<endl;
-          cout<<"3:Sell Property"<<endl;
-          cout<<"4: Buy houses and Hotels"<<endl;
+          cout<<"2: View properties owned"<<endl;
+          cout<<"3: Sell Property"<<endl;
+          cout<<"4: Sell House and Hotels"<<endl;
+          cout<<"5: Buy houses and Hotels"<<endl;
+          cout<<"6: List of properties in the game"<<endl; 
           cin>>menuCh;
           
           switch(menuCh)
           {
-              case 1:if(times==0)
-                     //Function call to get dice roll and store it in player 2 dice total
-                     player2+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
-                    else
-                        cout<<"You cannot roll twice in a turn"<<endl;
-                        times++;
-                     break;
+               case'1':if(times==0)
+                     //Function call to get dice roll and store it in player  dice total
+                        {  player2+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+                          times++;}
+                  
+                        else if(playr2[10][0]=='j')
+                              cout<<"You are in jail"<<endl;
+                        else
+                              cout<<"You can't roll twice in a turn"<<endl;
+                        break;
                      //Function call to view purchased properties
-              case 2:proView(prop,playr1,playr2,turn);
+              case '2':proView(prop,playr1,playr2,turn);
                      break;
                      //Function call to sell property
-              case 3:sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+              case '3':sell(prop,rent, playr1,playr2,bank1,bank2,turn);
                      break;
+                     //Function call to sell houses and hotels
+              case '4':sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+                      break;
                      //Function  call to buy houses
-              case 4: menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+              case '5': menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              case '6': srtArry(prop);
                      break;
               default:cout<<"You have made an invalid menu choice"<<endl;
+          }
+          //Input Validation
+          while(menuCh!='1'&&menuCh!='2'&&menuCh!='3'&&menuCh!='4'&&menuCh!='5'&&menuCh!='6')
+          { //Outputs player 2's total dice roll
+            cout<<"Player 2 "<<player2<<endl;    
+          //Outputs player 1's bank total
+          cout<<"Bank 2 "<<bank2<<endl;
+          cout<<"Please make a menu selection:"<<endl;
+          cout<<"1: Roll Dice"<<endl;
+          cout<<"2: View properties owned"<<endl;
+          cout<<"3: Sell Property"<<endl;
+          cout<<"4: Sell House and Hotels"<<endl;
+          cout<<"5: Buy houses and Hotels"<<endl;
+          cout<<"6: List of properties in the game"<<endl; 
+          cin>>menuCh;
+          
+          switch(menuCh)
+          {
+               case'1':if(times==0)
+                     //Function call to get dice roll and store it in player  dice total
+                    {player2+=rollDie(prop, playr1, bank1,bank2, turn, &totDie, &dbls);
+                     times++;}
+                      
+                        else if(playr2[10][0]=='j')
+                              cout<<"You are in jail"<<endl;
+                        else
+                              cout<<"You can't roll twice in a turn"<<endl;
+                        break;
+                     //Function call to view purchased properties
+              case '2':proView(prop,playr1,playr2,turn);
+                     break;
+                     //Function call to sell property
+              case '3':sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+                     //Function call to sell houses and hotels
+              case '4':sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+                      break;
+                     //Function  call to buy houses
+              case '5': menu(prop,rent, playr1,playr2,bank1,bank2,turn);
+                     break;
+              case '6': srtArry(prop);
+                     break;
+              default:cout<<"You have made an invalid menu choice"<<endl;
+          }
           }
           cout<<" Would you like to make another menu selection"<<endl;
           cin>>choice;
@@ -440,7 +548,21 @@ int main()
                cout<<"ERROR. Somthing Went Wrong!!!"<<endl;
     }while(dbls==1);
    
-    }     
+    }
+      //Gives player 1 the option to sell before losing 
+    if(bank1<0)
+    {
+        cout<<"Player 1 your account is negative. You must sell property or forfeit."<<endl;
+        sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+        sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+    }
+    //Gives player 2the option to sell before losing
+    if(bank2<0)
+    {
+        cout<<"Player 2 your account is negative. You must sell property or forfeit."<<endl;
+        sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+        sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+    }   
     }while(bank1>0&&bank2>0);
     if(bank1<0)
         cout<<"Player 1 Loses. Player 2 Wins "<<endl;
@@ -500,15 +622,11 @@ int rollDie(string prop [], char player[][7], int &bank1, int &bank2, int turn)
        die2=rand()%6+1;                     //Die two
        //Calculates sum
        sum=die1+die2;  
-    //pointer to totDie   
-   
+  
     //Conditionally executes when both dies equal each other
-    
     if(die1==die2)
     {cout<<"You got doubles!! You get to go again!!"<<endl;
         cout<<"You rolled a "<<die1<<" and "<<die2<<" which equals "<<sum<<endl;
-      
-        
         //returns sum to players total dice roll
         return dbls;
         total+=sum;}
@@ -545,7 +663,7 @@ void  purp1(string prop [],int rent [][COL],char playr1[][COL], char playr2[][CO
             bank1-=rate;
             playr1[1][0]='b';
             cout<<"Player 1 Bought "<<prop[1]<<endl;}}
-            
+      
     
     else if(turn==false&&buy==true&&playr1[1][0]=='b')      
         cout<<"You already own this property"<<endl;
@@ -4195,7 +4313,7 @@ int jail(string prop [], char playr1[][7], char playr2[][7], int &bank1,int &ban
     playr1[10][0]='?';
     count1=0;}
     //Executes if three turns have passed
-    else if(count1>3)
+    else if(count1>=3)
     {bank1-=50;
      playr1[10][0]='?';
     count1=0;}
@@ -4501,7 +4619,7 @@ int menu(string prop [],int rent [][COL],char playr1[][COL], char playr2[][COL],
     cout<<"Would you like to purchase houses. Press y for yes and n for no"<<endl;
     cin>>choice;
       //Validates entry
-        while(choice!='y'||choice!='Y'||choice!='n'||choice!='N')
+        while(choice!='y'&&choice!='Y'&&choice!='n'&&choice!='N')
         {
             cout<<"ERROR: Invalid entry"<<endl;
             cout<<"Would you like to purchase houses. Press y for yes and n for no"<<endl;
@@ -8574,4 +8692,30 @@ void hsrep2(string prop[],int rent[][COL], char playr1[][COL], char playr2[][COL
         cout<<"You have "<<count2<<" hotels. The street repairs for hotels is $"<<charge2<<endl;;
         bank2-=charge2;
     }
+}
+void srtArry(string array[40] )
+{
+    //Declare variables
+    bool swap;                                 //Variable that changes to to true if a swap has been made
+    string temp;                               //Temporarily stores value
+    int size= 40;
+    //Loops through the size of the and sorts them into ascending order
+    do
+    {
+    swap = false;
+    for (int count = 0; count < (size - 1); count++)
+    {
+        if (array[count] > array[count + 1])
+        {
+        temp = array[count];
+        array[count] = array[count + 1];
+        array[count + 1] = temp;
+        swap = true;
+        }
+    }
+    } while (swap);
+    //Outputs a list of properties
+    cout<<"Here is a list of properties in the game and the number of times they occur."<<endl;
+    for(int row=0;row<40;row++)
+    cout<<array[row]<<endl;
 }
