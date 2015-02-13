@@ -341,8 +341,19 @@ int main()
           
         }while(dbls==1);
            //Bool switch to true to indicate its player 2's turn
+       
+           
+           
+   //Gives player 1 the option to sell before losing 
+    if(bank1<0)
+    {
+        cout<<"Player 1 your account is negative. You must sell property or forfeit."<<endl;
+        sell(prop,rent, playr1,playr2,bank1,bank2,turn);
+        sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
+        if(bank1<0)
+            break;
+    }
            turn=true;
-          
     }
     //Player 2 turn
     if(turn=true)
@@ -549,13 +560,7 @@ int main()
     }while(dbls==1);
    
     }
-      //Gives player 1 the option to sell before losing 
-    if(bank1<0)
-    {
-        cout<<"Player 1 your account is negative. You must sell property or forfeit."<<endl;
-        sell(prop,rent, playr1,playr2,bank1,bank2,turn);
-        sellhs(prop,rent, playr1,playr2,bank1,bank2,turn);
-    }
+  
     //Gives player 2the option to sell before losing
     if(bank2<0)
     {
